@@ -41,17 +41,17 @@ jobs:
 
       - name: Deploy Hexo Blog to Pages Branch
         # 将编译后的博客文件推送到指定仓库
-        env:
-          GITHUB_REPO: github.com/YangRucheng/Blog-Hexo # Github 仓库
         run: |
           cd ./public && git init && git add .
           git config user.name "YangRucheng"
           git config user.email "admin@yangrucheng.top"
           git add .
           git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           branch: pages
           github_token: ${{ secrets.ACCESS_TOKEN }}
+          force: true
           force_with_lease: true

@@ -20,20 +20,20 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Cache node modules
+      - name: Cache Node Modules
         # 设置包缓存目录，避免每次下载
         uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Install hexo dependencies
+      - name: Install Hexo Dependencies
         # 下载 hexo-cli 脚手架及相关安装包
         run: |
           npm install -g hexo-cli
           npm install
 
-      - name: Generate files
+      - name: Generate Hexo HTML Files
         # 编译 markdown 文件
         run: |
           hexo clean
@@ -53,5 +53,4 @@ jobs:
         with:
           branch: pages
           github_token: ${{ secrets.ACCESS_TOKEN }}
-          force: true
           force_with_lease: true

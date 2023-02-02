@@ -51,6 +51,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
+          directory: ./public
           branch: pages
           github_token: ${{ secrets.ACCESS_TOKEN }}
           force_with_lease: true

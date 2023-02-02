@@ -13,28 +13,42 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
         with:
-          ref: master
+          ref: main
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      - name: Setup Hexo
-        env:
-          ACTION_DEPLOY_KEY: ${{ secrets.HEXO_DEPLOY_KEY }}
+      - name: Cache node modules
+        # 设置包缓存目录，避免每次下载
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install hexo dependencies
+        # 下载 hexo-cli 脚手架及相关安装包
         run: |
-          mkdir -p ~/.ssh/
-          echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
-          chmod 700 ~/.ssh
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          git config --global user.email "john@doe.com"
-          git config --global user.name "John Doe"
-          npm install hexo-cli -g
+          npm install -g hexo-cli
           npm install
 
-      - name: Deploy
+      - name: Generate files
+        # 编译 markdown 文件
         run: |
           hexo clean
-          hexo deploy
+          hexo generate
+
+      - name: Deploy Hexo Blog to Pages Branch
+        # 将编译后的博客文件推送到指定仓库
+        env:
+          GITHUB_REPO: github.com/YangRucheng/Blog-Hexo # Github 仓库
+        run: |
+          cd ./public && git init && git add .
+          git config user.name "YangRucheng"
+          git config user.email "admin@yangrucheng.top"
+          git add .
+          git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
+
+          git remote add origin [https://${{ secrets.ACCESS_TOKEN }}@$GITHUB_REPO"]
+          git push origin master -f

@@ -5,9 +5,6 @@ cover: ../static/2023.02.03.2.jpg
 katex: false
 ---
 
-[TOC]
-
-
 
 ### 0.常见Linux命令
 

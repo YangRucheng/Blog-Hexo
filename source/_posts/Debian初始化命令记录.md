@@ -5,8 +5,6 @@ cover: ../static/2023.02.03.1.jpg
 katex: false
 ---
 
-[TOC]
-
 
 # 树莓派入门
 

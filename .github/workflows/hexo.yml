@@ -32,7 +32,7 @@ jobs:
       - name: Handle Markdown
         # 预处理 markdown 文件
         run: |
-          python3 ./code/main.py
+          python3 main.py
 
       - name: Cache Node Modules
         # 设置包缓存目录，避免每次下载

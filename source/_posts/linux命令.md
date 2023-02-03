@@ -1,7 +1,7 @@
 ---
 title: Linux系统常用命令
 tags: Linux OS
-cover: https://tva1.sinaimg.cn/large/008mlEnHgy1h995jxvpygj30vf18g1bj.jpg
+cover: ../static/2023.02.03.2.jpg
 katex: false
 ---
 
@@ -41,8 +41,8 @@ katex: false
 
 标准错误输出重定向没有专用的重定向操作符。为了重定向标准错误输出，我们必须用到其文件描述符。 一个程序的输出会流入到几个带编号的文件中。这些文件的前 三个称作标准输入、标准输出和标准错误输出，shell 内部分别将其称为文件描述符0、1和2。shell 使用文件描述符提供 了一种表示法来重定向文件。因为标准错误输出和文件描述符2一样，我们用这种 表示法来重定向标准错误输出：
 
-```bash
-[mico@linuxbox ~]$ ls -l /bin/usr 2> ls-error.txt
+```shell
+ls -l /bin/usr 2> ls-error.txt
 ```
 
 如何将二者重定向至同一文件 
@@ -51,7 +51,7 @@ katex: false
 
 #### TIP
 
-一行执行多个命令可使用 `；` 分隔
+一行执行多个命令可使用 `;` 分隔
 
 
 

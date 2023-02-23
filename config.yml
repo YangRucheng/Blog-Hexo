@@ -354,7 +354,7 @@ twikoo:
 # Giscus
 # https://giscus.app/
 giscus:
-  repo: https://github.com/YangRucheng/Blog-Hexo
+  repo: YangRucheng/Blog-Hexo
   repo_id: R_kgDOI4-j6Q
   category_id: DIC_kwDOI4-j6c4CUaSX
   theme:

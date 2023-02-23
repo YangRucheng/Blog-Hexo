@@ -3,10 +3,7 @@ import sys
 import os
 
 
-REPLACE = [
-    ("6811396yang", 'Your Password'),
-    ("123456yang", 'Your Password'),
-]
+REPLACE = []
 
 match (sys.argv[1] if len(sys.argv) > 1 else "dev"):
     case "dev":

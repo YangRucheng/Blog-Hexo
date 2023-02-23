@@ -7,5 +7,5 @@ git rm -r --cached .
 git add .
 git commit -m "${text}"
 echo "本地Git 提交完成"
-git push main main -f
+git push
 echo "GitHub 提交完成"

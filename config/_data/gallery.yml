@@ -1,0 +1,20 @@
+- class_name: 照片
+  class_desc: 未完成
+  link_list:
+    - name: micoの博客
+      link: https://csuer411.github.io
+      avatar: https://github.com/csuer411/img/blob/master/animegirl/IMG_20221012_171725.jpg
+      descr: 夜阑听雨眠
+    - name: 万事屋科技
+      link: https://bbs.idceo.cn/
+      avatar: https://bbs.idceo.cn/upload/admin/202301/15/1_1673793486_sHklepBLam.jpg
+      descr: 刘思科大佬进驻
+- class_name: 常用网站
+  class_desc: 点击快速前往网站
+  link_list:
+    - name: 编程自学指南
+      link: https://csdiy.wiki/CS%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92/
+      descr: 国外开源课程
+    - name: Hexo博客搭建
+      link: https://tzy1997.com/articles/hexo1601/
+      descr: 本站基于Hexo框架搭建

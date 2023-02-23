@@ -88,12 +88,12 @@ sudo nano /etc/fstab         # 添加挂载配置
 sudo mount -a                # 重启挂载软件
 ```
 ```shell
-//192.168.123.2/公共空间 /opt/Docker/Nginx/HTML/files.com/公共空间 cifs username=root,password=Your Password,vers=1.0
+//192.168.123.2/公共空间 /opt/Docker/Nginx/HTML/files.com/公共空间 cifs username=root,password=6811396yang,vers=1.0
 UUID=****** /opt/Disk exfat defaults 0 0
 ```
 临时挂载
 ```shell
-sudo mount -t cifs -o username=root,password=Your Password,file_mode=0777,dir_mode=0777 //192.168.123.2/公共空间 /opt/Docker/Nginx/HTML/files.com/公共空间
+sudo mount -t cifs -o username=root,password=6811396yang,file_mode=0777,dir_mode=0777 //192.168.123.2/公共空间 /opt/Docker/Nginx/HTML/files.com/公共空间
 ```
 ## 网络配置
 
@@ -182,13 +182,13 @@ docker run -d --name EMQX -p 1883:1883 -p 8083:8083 -p 8084:8084 -p 8883:8883 -p
 ### 9. MariaDB
 
 ``` shell
-docker run --restart=always -d --name MariaDB --env MARIADB_ROOT_PASSWORD=Your Password! -v /home/root/Docker/MariaDB:/var/lib/mysql -p 3306:3306  mariadb:latest
+docker run --restart=always -d --name MariaDB --env MARIADB_ROOT_PASSWORD=6811396yang! -v /home/root/Docker/MariaDB:/var/lib/mysql -p 3306:3306  mariadb:latest
 ```
 
 ### 10. MongoDB `在香橙派上必须使用4.4.18版本, 不支持5.0+版本`
 
 ``` shell
-docker run -itd --name  MongoDB -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=Your Password! -v /home/root/Docker/MongoDB:/data/db -p 27017:27017 mongo:4.4.18
+docker run -itd --name  MongoDB -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=6811396yang! -v /home/root/Docker/MongoDB:/data/db -p 27017:27017 mongo:4.4.18
 ```
 
 ### 11. HomeAssistant
@@ -278,7 +278,7 @@ DB_PREF=flarum_
 DB_PORT=3306
 
 FLARUM_ADMIN_USER=admin
-FLARUM_ADMIN_PASS=Your Password!
+FLARUM_ADMIN_PASS=6811396yang!
 FLARUM_ADMIN_MAIL=admin@yangrucheng.top
 FLARUM_TITLE=Forum By YangRucheng
 ```

@@ -10,50 +10,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
-        # 代码检查
+      - name: 克隆仓库
         uses: actions/checkout@v3
         with:
           ref: main
 
-      - name: Setup Node.js
-        # 安装Node.js
+      - name: 安装Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
       
-      - name: Setup Python
-        # 安装Python, 并缓存包
+      - name: 安装Python, 并缓存包
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Handle Markdown
-        # 预处理 markdown 文件
+      - name: 预处理 markdown 文件
         run: |
-          python3 main.py
+          python3 main.py "prod"
 
-      - name: Cache Node Modules
-        # 设置包缓存目录，避免每次下载
+      - name: 设置包缓存目录，避免每次下载
         uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Install Hexo Dependencies
-        # 下载 hexo-cli 脚手架及相关安装包
+      - name: 下载 hexo-cli 脚手架及相关安装包
         run: |
           npm install -g hexo-cli
           npm install
 
-      - name: Generate Hexo HTML Files
-        # 编译 markdown 文件
+      - name: 编译 markdown 文件
         run: |
           hexo clean
           hexo generate
 
-      - name: Deploy Hexo Blog to Pages Branch
-        # 将编译后的博客文件推送到指定仓库
+      - name: 将编译后的博客文件推送到指定仓库
         env:
           GITHUB_REPO: github.com/YangRucheng/Blog-Hexo
         run: |

@@ -49,6 +49,10 @@ jobs:
         run: |
           hexo clean
           hexo generate
+      
+      - name: 处理编译后的文件
+        run: |
+          echo "# Cloudflare Page" > ./public/README.md
 
       - name: 将编译后的博客文件推送到指定仓库
         env:

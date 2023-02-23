@@ -20,7 +20,7 @@ nav:
 # Code Blocks (代碼相關)
 # --------------------------------------
 
-highlight_theme: darker #  darker / pale night / light / ocean / mac / mac light / false
+highlight_theme: light #  darker / pale night / light / ocean / mac / mac light / false
 highlight_copy: true # copy button
 highlight_lang: true # show the code language
 highlight_shrink: false # true: shrink the code blocks / false: expand the code blocks | none: expand code blocks and hide the button
@@ -50,22 +50,25 @@ social:
 algolia_search:
   enable: false
   hits:
-    per_page: 6
+    per_page: 10
+  labels:
+    input_placeholder: Search for Posts
+    hits_empty: "我们没有找到任何搜索结果: ${query}"
+    hits_stats: "找到${hits}条结果 (用时${time} ms)"
 
 # Local search
 local_search:
   enable: false
   preload: false
   CDN:
-
-# Math (數學)
-# --------------------------------------
-# About the per_page
-# if you set it to true, it will load mathjax/katex script in each page (true 表示每一頁都加載js)
-# if you set it to false, it will load mathjax/katex script according to your setting (add the 'mathjax: true' in page's front-matter)
-# (false 需要時加載，須在使用的 Markdown Front-matter 加上 mathjax: true)
-
-# MathJax
+0
+#Math (数学)
+#--------------------------------------
+#关于每页
+#if you set it to true, it will load mathjax/katex script in each page (true 表示每一页都加载js)
+#如果你将它设置为 false，它将根据你的设置加载 mathjax/katex 脚本（在页面的前面添加'mathjax：true'）
+#(false 需要时加载，须在使用的 Markdown Front-matter 加上 mathjax: true)
+#MathJax
 mathjax:
   enable: false
   per_page: false
@@ -76,113 +79,110 @@ katex:
   per_page: false
   hide_scrollbar: true
 
-# Image (圖片設置)
-# --------------------------------------
-
-# Favicon（網站圖標）
+#Image (图片设置)
+#--------------------------------------
+#Favicon（网站图标）
 favicon: /img/favicon.ico
 
-# Avatar (頭像)
+#Avatar (头像)
 avatar:
   img: /img/头像.jpg
   effect: false
 
-# Disable all banner image
+#禁用所有横幅图像
 disable_top_img: false
 
-# The banner image of home page
+#首页横幅图片
 index_img:
 
-# If the banner of page not setting, it will show the top_img
+#如果页面的横幅没有设置，它会显示 top_img
 default_top_img: url(/img/莉可丽丝.jpg)
 
-# The banner image of archive page
+#存档页面的横幅图像
 archive_img:
 
-# If the banner of tag page not setting, it will show the top_img
-# note: tag page, not tags page (子標籤頁面的 top_img)
+#如果标签页的横幅没有设置，它会显示top_img
+#注意：标签页，不是标签页(子标签页面的 top_img)
 tag_img:
 
-# The banner image of tag page
-# format:
-#  - tag name: xxxxx
+#标签页的横幅图片
+#格式：
+#-标记名称：xxxxx
 tag_per_img:
 
-# If the banner of category page not setting, it will show the top_img
-# note: category page, not categories page (子分類頁面的 top_img)
+#如果类别页面的横幅没有设置，它将显示 top_img
+#注意：分类页，不是分类页（子分类页的top_img）
 category_img:
 
-# The banner image of category page
-# format:
-#  - category name: xxxxx
+#类别页面的横幅图像
+#格式：
+#-类别名称：xxxxx
 category_per_img:
 
 cover:
-  # display the cover or not (是否顯示文章封面)
+  #display the cover or not (是否显示文章封面)
   index_enable: true
   aside_enable: true
   archives_enable: true
-  # the position of cover in home page (封面顯示的位置)
-  # left/right/both
+  #the position of cover in home page (封面显示的位置)
+  #left/right/both
   position: both
-  # When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)
+  #When cover is not set, the default cover is displayed (当没有设置cover时，默认的封面显示)
   default_cover:
-    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
+    - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
 
-# Replace Broken Images (替換無法顯示的圖片)
+#Replace Broken Images (替换无法显示的图片)
 error_img:
   flink: /img/friend_404.gif
   post_page: /img/404.jpg
 
-# A simple 404 page
+#一个简单的404页面
 error_404:
-  enable: false
+  enable: true
   subtitle: "Page Not Found"
   background: https://i.loli.net/2020/05/19/aKOcLiyPl2JQdFD.png
 
 post_meta:
-  page: # Home Page
-    date_type: created # created or updated or both 主頁文章日期是創建日或者更新日或都顯示
-    date_format: date # date/relative 顯示日期還是相對日期
-    categories: true # true or false 主頁是否顯示分類
-    tags: false # true or false 主頁是否顯示標籤
-    label: true # true or false 顯示描述性文字
+  page: #主页
+    date_type: created #created or updated or both 主页文章日期是创建日或者更新日或都显示
+    date_format: date #date/relative 显示日期还是相对日期
+    categories: true #true or false 主页是否显示分类
+    tags: false #true or false 主页是否显示标签
+    label: true #true or false 显示描述性文字
   post:
-    date_type: both # created or updated or both 文章頁日期是創建日或者更新日或都顯示
-    date_format: date # date/relative 顯示日期還是相對日期
-    categories: true # true or false 文章頁是否顯示分類
-    tags: true # true or false 文章頁是否顯示標籤
-    label: true # true or false 顯示描述性文字
-
-# wordcount (字數統計)
-# see https://butterfly.js.org/posts/ceeb73f/#字數統計
+    date_type: both #created or updated or both 文章页日期是创建日或者更新日或都显示
+    date_format: date #date/relative 显示日期还是相对日期
+    categories: true #true or false 文章页是否显示分类
+    tags: true #true or false 文章页是否显示标签
+    label: true #true or false 显示描述性文字
+#wordcount (字数统计)
+#see https://butterfly.js.org/posts/ceeb73f/#字数统计
 wordcount:
   enable: false
   post_wordcount: true
   min2read: true
   total_wordcount: true
 
-# Display the article introduction on homepage
-# 1: description
-# 2: both (if the description exists, it will show description, or show the auto_excerpt)
-# 3: auto_excerpt (default)
-# false: do not show the article introduction
+#在首页显示文章介绍
+#1：说明
+#2：两者（如果描述存在，则显示描述，或显示auto_excerpt）
+#3：auto_excerpt（默认）
+#false：不显示文章介绍
 index_post_content:
   method: 3
-  length: 500 # if you set method to 2 or 3, the length need to config
+  length: 500 #如果设置method为2或3，长度需要配置
 
-# anchor
+#锚
 anchor:
   button:
     enable: false
     always_show: false
-    icon: # the unicode value of Font Awesome icon, such as '\3423'
-  auto_update: false # when you scroll in post, the URL will update according to header id.
+    icon: #Font Awesome 图标的 unicode 值，例如 '\3423'
+  auto_update: false #当您在帖子中滚动时，URL 将根据标题 ID 更新。
 
-# Post
-# --------------------------------------
-
-# toc (目錄)
+#邮政
+#--------------------------------------
+#toc (目录)
 toc:
   post: true
   page: false
@@ -198,7 +198,7 @@ post_copyright:
   license: CC BY-NC-SA 4.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
-# Sponsor/reward
+#赞助/奖励
 reward:
   enable: false
   QR_code:
@@ -209,21 +209,21 @@ reward:
     #   link:
     #   text: alipay
 
-# Post edit
-# Easily browse and edit blog source code online.
+#后期编辑
+#在线轻松浏览和编辑博客源代码。
 post_edit:
   enable: false
   # url: https://github.com/user-name/repo-name/edit/branch-name/subdirectory-name/
   # For example: https://github.com/jerryc127/butterfly.js.org/edit/main/source/
   url:
 
-# Related Articles
+#相关文章
 related_post:
   enable: true
   limit: 6 # Number of posts displayed
-  date_type: created # or created or updated 文章日期顯示創建日或者更新日
+  date_type: created #or created or updated 文章日期显示创建日或者更新日
 
-# figcaption (圖片描述文字)
+#figcaption (图片描述文字)
 photofigcaption: false
 
 # post_pagination (分頁)
@@ -233,7 +233,7 @@ photofigcaption: false
 # false: disable pagination
 post_pagination: 1
 
-# Displays outdated notice for a post (文章過期提醒)
+#Displays outdated notice for a post (文章过期提醒)
 noticeOutdate:
   enable: false
   style: flat # style: simple/flat
@@ -263,16 +263,16 @@ addtoany:
   enable: false
   item: facebook,twitter,wechat,sina_weibo,facebook_messenger,email,copy_link
 
-# Comments System
-# --------------------------------------
+#评论系统
+#--------------------------------------
 
 comments:
-  # Up to two comments system, the first will be shown as default
-  # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42/Artalk
-  use: # Valine,Disqus
-  text: true # Display the comment name next to the button
-  # lazyload: The comment system will be load when comment element enters the browser's viewport.
-  # If you set it to true, the comment count will be invalid
+  #最多两个评论系统，第一个将默认显示
+  #选择：Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42/Artalk
+  use: giscus
+  text: true #在按钮旁边显示评论名称
+  #lazyload：评论系统将在评论元素进入浏览器视口时加载。
+  #如果设置为true，则评论计数无效
   lazyload: false
   count: false # Display comment count in post's top_img
   card_post_count: false # Display comment count in Home Page
@@ -281,11 +281,10 @@ comments:
 # https://disqus.com/
 disqus:
   shortname:
-  apikey: # For newest comments widget
-
-# Alternative Disqus - Render comments with Disqus API
-# DisqusJS 評論系統，可以實現在網路審查地區載入 Disqus 評論列表，兼容原版
-# https://github.com/SukkaW/DisqusJS
+  apikey: #For newest comments widget
+  #Alternative Disqus -Render comments with Disqus API
+  #DisqusJS 评论系统，可以实现在网路审查地区载入 Disqus 评论列表，兼容原版
+  #https://github.com/SukkaW/DisqusJS
 disqusjs:
   shortname:
   apikey:
@@ -333,7 +332,7 @@ utterances:
   issue_term: pathname
   # Theme: github-light/github-dark/github-dark-orange/icy-dark/dark-blue/photon-dark
   light_theme: github-light
-  dark_theme: photon-dark
+  dark_theme: github-dark
 
 # Facebook Comments Plugin
 # https://developers.facebook.com/docs/plugins/comments/
@@ -355,9 +354,9 @@ twikoo:
 # Giscus
 # https://giscus.app/
 giscus:
-  repo:
-  repo_id:
-  category_id:
+  repo: https://github.com/YangRucheng/Blog-Hexo
+  repo_id: R_kgDOI4-j6Q
+  category_id: DIC_kwDOI4-j6c4CUaSX
   theme:
     light: light
     dark: dark
@@ -423,14 +422,14 @@ crisp:
 messenger:
   enable: false
   pageID:
-  lang: zh_CN # Language en_US/zh_CN/zh_TW and so on
+  lang: zh_CN #语言 en_US/zh_CN/zh_TW 等
 
-# Footer Settings
-# --------------------------------------
+#页脚设置
+#--------------------------------------
 footer:
   owner:
     enable: true
-    since: 2020
+    since: 2023
   custom_text:
   copyright: true # Copyright of theme and framework
 
@@ -568,7 +567,7 @@ activate_power_mode:
 
 # Mouse click effects: fireworks (鼠標點擊效果: 煙火特效)
 fireworks:
-  enable: false
+  enable: true
   zIndex: 9999 # -1 or 9999
   mobile: false
 
@@ -588,8 +587,8 @@ ClickShowText:
   random: false
   mobile: false
 
-# Default display mode (網站默認的顯示模式)
-# light (default) / dark
+#Default display mode (网站默认的显示模式)
+#light (default) /dark
 display_mode: dark
 
 # Beautify (美化頁面顯示)
@@ -619,7 +618,7 @@ hr_icon:
   icon: # the unicode value of Font Awesome icon, such as '\3423'
   icon-top:
 
-# the subtitle on homepage (主頁subtitle)
+#the subtitle on homepage (主页subtitle)
 subtitle:
   enable: false
   # Typewriter Effect (打字效果)
@@ -633,7 +632,7 @@ subtitle:
   # source: 2  調用一句網（簡體） https://yijuzhan.com/
   # source: 3  調用今日詩詞（簡體） https://www.jinrishici.com/
   # subtitle 會先顯示 source , 再顯示 sub 的內容
-  source: false
+  source: 1
   # 如果關閉打字效果，subtitle 只會顯示 sub 的第一行文字
   sub:
 
@@ -710,7 +709,7 @@ busuanzi:
 # Formal: Month/Day/Year Time or Year/Month/Day Time
 runtimeshow:
   enable: false
-  publish_date: 2/3/2023 00:00:00
+  publish_date: 1/1/2023 00:00:00
 
 # Aside widget - Newest Comments
 newest_comments:
@@ -720,22 +719,21 @@ newest_comments:
   storage: 10 # unit: mins, save data to localStorage
   avatar: true
 
-# Bottom right button (右下角按鈕)
-# --------------------------------------
-
-# Conversion between Traditional and Simplified Chinese (簡繁轉換)
+#Bottom right button (右下角按钮)
+#--------------------------------------
+#Conversion between Traditional and Simplified Chinese (简繁转换)
 translate:
   enable: false
   # The text of a button
-  default: 繁
+  default: "To繁"
   # the language of website (1 - Traditional Chinese/ 2 - Simplified Chinese）
   defaultEncoding: 2
   # Time delay
   translateDelay: 0
-  # The text of the button when the language is Simplified Chinese
-  msgToTraditionalChinese: "繁"
+  #语言为简体中文时按钮的文字
+  msgToTraditionalChinese: "To繁"
   # The text of the button when the language is Traditional Chinese
-  msgToSimplifiedChinese: "簡"
+  msgToSimplifiedChinese: "To簡"
 
 # Read Mode (閲讀模式)
 readmode: true
@@ -745,18 +743,18 @@ darkmode:
   enable: true
   # Toggle Button to switch dark/light mode
   button: true
-  # Switch dark/light mode automatically (自動切換 dark mode和 light mode)
-  # autoChangeMode: 1  Following System Settings, if the system doesn't support dark mode, it will switch dark mode between 6 pm to 6 am
-  # autoChangeMode: 2  Switch dark mode between 6 pm to 6 am
-  # autoChangeMode: false
-  autoChangeMode: false
+  #自动切换暗/亮模式（自动切换暗模式和亮模式）
+  #autoChangeMode: 1 按照系统设置，如果系统不支持深色模式，它将在下午 6 点到早上 6 点之间切换深色模式
+  #autoChangeMode: 2 在下午 6 点到早上 6 点之间切换黑暗模式
+  #自动更改模式：假
+  autoChangeMode: 1
 
 # show scroll percent in scroll-to-top button
 rightside_scroll_percent: false
 
-# Don't modify the following settings unless you know how they work (非必要請不要修改 )
-# Choose: readmode,translate,darkmode,hideAside,toc,chat,comment
-# Don't repeat 不要重複
+#Don't modify the following settings unless you know how they work (非必要请不要修改 )
+#Choose: readmode,translate,darkmode,hideAside,toc,chat,comment
+#Don't repeat 不要重复
 rightside_item_order:
   enable: false
   hide: # readmode,translate,darkmode,hideAside

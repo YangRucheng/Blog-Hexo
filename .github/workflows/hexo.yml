@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-blog:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,6 +34,11 @@ jobs:
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: 查看目录结构
+        run: |
+          sudo apt install tree
+          sudo tree .
 
       - name: 下载 hexo-cli 脚手架及相关安装包
         run: |

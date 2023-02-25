@@ -55,5 +55,31 @@ Delete from department where dept_name = 'Comp. Sci.';
 
 ## 2.8
 
+<!--  -->
 
+## 2.9
 
+1. 作为默认值
+2. 数据可能不存在
+
+<!-- ## 6.2
+
+a.
+```sql
+Select person_name from employee where city='Miami'
+```
+
+b.
+```sql
+select person_name from works where salary > 100000
+```
+
+c.
+```sql
+Select employee.person_name, works.salary
+from employee
+join works ON employee.person_name = works.person_name
+where works.salary > 100000 and employee.city = 'Miami';
+```
+
+##  -->

@@ -1,6 +1,7 @@
 ---
 title: Debian常用命令记录
 tags: Linux
+date: 2023-01-20
 cover: ../static/Debian-Shell/cover.jpg
 katex: false
 ---

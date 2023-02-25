@@ -1,6 +1,7 @@
 ---
 title: Linux系统常用命令
 tags: Linux
+date: 2023-01-12
 cover: ../static/Linux-Shell/cover.jpg
 katex: false
 ---

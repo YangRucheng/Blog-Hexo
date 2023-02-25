@@ -1,6 +1,7 @@
 ---
 title: 数据库原理作业
 tags: 作业
+date: 2023-02-23
 cover: ../static/Database-Homework/cover.jpg
 katex: false
 ---

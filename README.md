@@ -13,3 +13,11 @@
 
 3. 修改或添加 `source/pages` 目录中的文件
    图片或其他静态资源, 放在 `source/static` 目录下, 新建一个与Mrakdown文件名相同的文件夹用于放静态资源
+
+## 查看
+
+下面的链接都可以访问站点
+
++ [https://blog.rucheng.eu.org](https://blog.rucheng.eu.org)
++ [https://blog.yangrucheng.top](https://blog.yangrucheng.top)
++ [https://blog.yangrucheng.eu.org](https://blog.yangrucheng.eu.org)

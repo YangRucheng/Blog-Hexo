@@ -10,16 +10,17 @@ katex: false
 
 ## 2.1
 
-表               主码
-employee   person_name
-works         person_name, 
-company    company_name
+|表|主码|
+|:---:|:---:|
+|employee|person_name |
+|works   |person_name |
+|company |company_name|
 
 ## 2.2
 
 > 假设初始的两个表均无记录
 
-+ 插入一条 `department` 表记录, 以便 `instructor` 表中的外键引用, 然后插入一条`instructor` 表记录, 引用不存在的 `dept_name`
+**(1)** 插入一条 `department` 表记录, 以便 `instructor` 表中的外键引用, 然后插入一条`instructor` 表记录, 引用不存在的 `dept_name`
 
 ```sql
 Insert into department (dept_name, building, budget) 
@@ -29,7 +30,7 @@ Insert into instructor (ID, name, dept_name, salary)
 values (10101, 'Srinivasan', 'Comp. Sci.', 65000);
 ```
 
-+ 删除 `department` 表中已被引用的记录
+**(2)** 删除 `department` 表中已被引用的记录
 
 ```sql
 Insert into instructor (ID, name, dept_name, salary) 
@@ -62,24 +63,16 @@ Delete from department where dept_name = 'Comp. Sci.';
 1. 作为默认值
 2. 数据可能不存在
 
-<!-- ## 6.2
+## 6.2
 
-a.
-```sql
-Select person_name from employee where city='Miami'
-```
+a. σ<sub>city = "Miami"</sub>(employee)
 
-b.
-```sql
-select person_name from works where salary > 100000
-```
+b. σ<sub>salary > 100000</sub>(works)
 
-c.
-```sql
-Select employee.person_name, works.salary
-from employee
-join works ON employee.person_name = works.person_name
-where works.salary > 100000 and employee.city = 'Miami';
-```
+c. σ<sub>salary > 100000 ^ city = "Miami"</sub>(works x employee)
 
-##  -->
+## 6.3
+
+a. σ<sub>branch_city = "Chicago"</sub>(branch)
+
+b. 

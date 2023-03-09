@@ -196,7 +196,7 @@ docker run --restart always --name Debian -d -v /home/root/Docker/Debian:/home m
 
 创建Macvlan
 ```
-docker network create -d macvlan --subnet=192.168.0.0/24 --gateway=192.168.0.1  -o parent=enx344b50000000 macvlan-4G
+docker network create -d macvlan --subnet=10.10.2.0/24 --gateway=10.10.2.1  -o parent=eth0 macvlan-4G
 ```
 
 ```

@@ -82,23 +82,7 @@ sudo echo 1 > value                        # 开
 sudo echo 0 > value                        # 关
 sudo echo 15 > unexport                    # 禁用GPIO15
 ```
-## 挂载SMB和U盘
 
-永久挂载
-```shell
-apt-get install exfat-fuse   # 安装exFAT软件
-blkid                        # 查看U盘的UUID
-sudo nano /etc/fstab         # 添加挂载配置
-sudo mount -a                # 重启挂载软件
-```
-```shell
-//192.168.123.2 /home/share cifs username=root,password=YourPassword,vers=1.0
-UUID=****** /opt/Disk exfat defaults 0 0
-```
-临时挂载
-```shell
-sudo mount -t cifs -o username=root,password=YourPassword,file_mode=0777,dir_mode=0777 //192.168.123.2 /home/share
-```
 ## 网络配置
 
 > 使用nmtui工具配置
@@ -112,7 +96,7 @@ sudo nano /etc/docker/daemon.json            # 修改镜像源
 ```json
 {
   "registry-mirrors": ["http://hub-mirror.c.163.com"],
-  "graph": "/data/docker/lib/docker",
+  "data-root": "/home/.data/var/lib/docker",
   "dns": ["114.114.114.114", "8.8.8.8"]
 }
 ```
@@ -120,40 +104,27 @@ sudo nano /etc/docker/daemon.json            # 修改镜像源
 > ` docker exec -it 容器ID bash `  
 > 退出容器  
 > ` exit `
-### 1. 安装Docker图形管理界面
+
+### 安装Docker图形管理界面
 
 ```shell
 docker run -d -p 9000:9000 --name=Portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /home/root/Docker/Portainer:/data outlovecn/portainer-cn:latest
 ```
-### 2. 安装AdGuardHome广告拦截
+
+### 安装AdGuardHome
 
 ```shell
 docker run -d -p 53:53/tcp -p 53:53/udp -p 8000:3000/tcp --name AdGuardHome -v /home/root/Docker/AdGuardHome/Config:/opt/adguardhome/conf -v /home/root/Docker/AdGuardHome/WorkData:/opt/adguardhome/work --restart=always adguard/adguardhome
 ```
 > 注意: 不要开启 **浏览安全网页服务** 功能, 否则将会导致DNS解析异常
-### 3. 安装Nginx `容器化的意义不大, 弃用`
 
-```shell
-docker run -d --name Nginx-Web -p 443:443 -p 80:80 -v /home/root/Docker/Nginx/HTML:/usr/share/nginx/html:rw -v /home/root/Docker/Nginx/Config:/etc/nginx:rw -v /home/root/Docker/Nginx/Logs:/var/log/nginx/:rw -v /home/root/Docker/Nginx/SSL:/ssl/:rw --restart=always -d nginx
-```
-### 4. 安装Speedtest `落后的PHP实现, 弃用`
-
-```shell
-docker run -d --name Speedtest -p 7000:80 -v /home/root/Docker/Speedtest:/var/www/html -e SAME_IP_MULTI_LOGS=true --restart=always -it badapple9/speedtest-x
-```
-### 5. 安装Clash
+### 安装Clash
 
 ```shell
 docker run -d --name=Clash -v /home/root/Docker/Clash:/root/.config/clash -p 520:520 -p 521:521 -p 9090:9090 --restart=unless-stopped dreamacro/clash
 ```
 
-### 6. 安装Aria2 `功能较少, 弃用`
-
-```shell
-docker run -d --name Aria2-Web -v /home/root/Docker/Aria2/Downloads:/data -p 7000:80 wahyd4/aria2-ui
-```
-
-### 7. 青龙面板 ` 占用过高, 弃用`
+### 青龙面板
 
 ```shell
 docker run -dit \
@@ -172,36 +143,26 @@ docker run -dit \
 whyour/qinglong:latest
 ```
 
-### 8. EMQX
-
-> 默认登录名: admin 密码: public
-
-> 注意: 应先创建未映射目录的容器, 并将文件复制到宿主机, 再创建映射目录的容器, 否则会导致文件缺失
-
-``` shell
-docker run -d --name EMQX -p 1883:1883 -p 8083:8083 -p 8084:8084 -p 8883:8883 -p 7000:18083 emqx/emqx
-docker run -d --name EMQX -p 1883:1883 -p 8083:8083 -p 8084:8084 -p 8883:8883 -p 7000:18083 -v /home/root/Docker/EMQX/log:/opt/emqx/log -v /home/root/Docker/EMQX/data:/opt/emqx/data emqx/emqx
-```
-
-### 9. MariaDB
+### MariaDB
 
 ``` shell
 docker run --restart=always -d --name MariaDB --env MARIADB_ROOT_PASSWORD=YourPassword! -v /home/root/Docker/MariaDB:/var/lib/mysql -p 3306:3306  mariadb:latest
 ```
 
-### 10. MongoDB `在香橙派上必须使用4.4.18版本, 不支持5.0+版本`
+### MongoDB 
 
+> 在香橙派上必须使用4.4.18版本, 不支持5.0+版本
 ``` shell
 docker run -itd --name  MongoDB -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=YourPassword! -v /home/root/Docker/MongoDB:/data/db -p 27017:27017 mongo:4.4.18
 ```
 
-### 11. HomeAssistant
+### HomeAssistant
 
 ``` shell
 docker run -d --name HomeAssistant -v /home/root/Docker/HomeAssistant/config:/config -p 8500:8123 homeassistant/home-assistant
 ```
 
-### 12. QBittorrent
+### QBittorrent
 
 ```shell
 docker run -d \
@@ -219,7 +180,7 @@ docker run -d \
   linuxserver/qbittorrent:4.4.3
 ```
 
-### 13. Debian基础镜像
+### Debian基础镜像
 
 ```shell
 ip link set eth0 promisc on # 网卡开启混杂模式
@@ -231,7 +192,7 @@ docker run --restart always --name Debian -d -v /home/root/Docker/Debian:/home -
 docker run --restart always --name Debian -d -v /home/root/Docker/Debian:/home mydebian              # 默认网桥
 ```
 
-### 14. OpenWrt
+### OpenWrt
 
 创建Macvlan
 ```
@@ -242,13 +203,7 @@ docker network create -d macvlan --subnet=192.168.0.0/24 --gateway=192.168.0.1  
 docker run --restart always --name OpenWrt -d --network macvlan --ip=192.168.123.2 --hostname Openwrt sulinggg/openwrt:aarch64_generic /sbin/init
 ```
 
-### 15. SpeedTest
-
-```shell
-docker run --name SpeedTest -p 9500:80 -v /home/root/Docker/SpeedTest:/config -e OOKLA_EULA_GDPR=true --restart unless-stopped bricksoft/speedtest
-```
-
-### 16. Flarum
+### Flarum
 
 ```dockerfile
 version: "3"
@@ -270,7 +225,7 @@ services:
       - mariadb
 ```
 
-```shell
+```config
 DEBUG=false
 FORUM_URL=https://forum.yangrucheng.top
 
@@ -293,14 +248,9 @@ docker run --name Flarum -p 8000:8888
 mondedie/flarum
 ```
 
-### 17.学习强国
+## 安装Zerotier 
 
-```shell
-docker run -it --rm --name=TechXuexi --shm-size="2g" -e "ZhuanXiang=True" -e "Pushmode=6" -p 9500:80 techxuexi/techxuexi-arm64v8
-```
-
-## 安装Zerotier `香橙派无tun, 无法使用, 改用Autossh`
-
+> 香橙派无tun模块, 无法使用, 改用Autossh
 ```shell
 curl -s https://install.zerotier.com | sudo bash   # 安装
 sudo zerotier-cli join 632ea29085dbe40e            # 加入网络
@@ -311,8 +261,14 @@ sudo killall -9 zerotier-one                       # 重启
 autossh -M 4010 -NR 8080:localhost:8080 root@123.60.208.1
 ```
 
-## 路由表
+## Go-CQhttp
+
 ```shell
-iptables -t nat -A POSTROUTING -s 172.18.0.0/16 -j SNAT --to 192.168.0.100
-# 172.18.0.0/16是Docker网段, 指定来自该网段的包转发到192.168.0.100的网络上
+docker run \
+  -v /path/to/config.yml:/data/config.yml \
+  -v /path/to/device.json:/data/device.json \
+  -p 2333:8080 \
+  -d \
+  --name CQhttp \
+  ghcr.io/mrs4s/go-cqhttp:master
 ```

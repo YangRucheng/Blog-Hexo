@@ -18,25 +18,33 @@ katex: false
 
 ## 2.2
 
-> 假设初始的两个表均无记录
+> 构建表结构
 
-**(1)** 插入一条 `department` 表记录, 以便 `instructor` 表中的外键引用, 然后插入一条`instructor` 表记录, 引用不存在的 `dept_name`
+```sql
+Create table department (
+    dept_name varchar(255) primary key,
+    building varchar(255),
+    budget numeric(10, 2)
+);
+
+Create table instructor (
+    ID int primary key,
+    name varchar(255),
+    dept_name varchar(255),
+    foreign key(dept_name) references department(dept_name)
+);
+```
+
+> 删除被 `instructor` 约束的 `department` 中的记录
 
 ```sql
 Insert into department (dept_name, building, budget) 
-values ('Biology', 'Watson', 90000);
+values ('Comp. Sci.', 'Watson', 90000); 
 
 Insert into instructor (ID, name, dept_name, salary) 
-values (10101, 'Srinivasan', 'Comp. Sci.', 65000);
-```
+values (10101, 'Srinivasan', 'Comp. Sci.', 65000); 
 
-**(2)** 删除 `department` 表中已被引用的记录
-
-```sql
-Insert into instructor (ID, name, dept_name, salary) 
-values (10101, 'Srinivasan', 'Comp. Sci.', 65000);
-
-Delete from department where dept_name = 'Comp. Sci.';
+Delete from department where dept_name = 'Comp. Sci.'; 
 ```
 
 ## 2.6
@@ -65,11 +73,11 @@ Delete from department where dept_name = 'Comp. Sci.';
 
 ## 6.2
 
-a. σ<sub>city = "Miami"</sub>(employee)
+**a.** Π person_name(σ<sub>city = "Miami"</sub>(employee))
 
-b. σ<sub>salary > 100000</sub>(works)
+**b.** Π person_name(σ<sub>salary > 100000</sub>(works))
 
-c. σ<sub>salary > 100000 ^ city = "Miami"</sub>(works x employee)
+**c.** Π person_name(σ<sub>salary > 100000 ^ city = "Miami"</sub>(works x employee))
 
 ## 6.3
 

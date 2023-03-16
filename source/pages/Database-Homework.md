@@ -10,11 +10,11 @@ katex: false
 
 ## 2.1
 
-|表|主码|
-|:---:|:---:|
-|employee|person_name |
-|works   |person_name |
-|company |company_name|
+|    表    |     主码     |
+| :------: | :----------: |
+| employee | person_name  |
+|  works   | person_name  |
+| company  | company_name |
 
 ## 2.2
 
@@ -53,14 +53,14 @@ Delete from department where dept_name = 'Comp. Sci.';
 
 ## 2.7
 
-|  表 | 主码 | 外码 |
-|:---:|:---:|:---:| 
-|branch|branch_name|无|
-|customer|customer_name|无|
-|loan|loan_number|branch_name(branch)|
-|borrower|ID|loan_number(loan)|
-|account|account_number|branch_name(branch)|
-|depositir|ID|account_number(account)|
+|    表     |      主码      |          外码           |
+| :-------: | :------------: | :---------------------: |
+|  branch   |  branch_name   |           无            |
+| customer  | customer_name  |           无            |
+|   loan    |  loan_number   |   branch_name(branch)   |
+| borrower  |       ID       |    loan_number(loan)    |
+|  account  | account_number |   branch_name(branch)   |
+| depositir |       ID       | account_number(account) |
 
 ## 2.8
 
@@ -73,14 +73,30 @@ Delete from department where dept_name = 'Comp. Sci.';
 
 ## 6.2
 
-**a.** Π person_name(σ<sub>city = "Miami"</sub>(employee))
+**a.** Π<sub>person_name</sub>(σ<sub>city = "Miami"</sub>(employee))
 
-**b.** Π person_name(σ<sub>salary > 100000</sub>(works))
+**b.** Π<sub>person_name</sub>(σ<sub>salary > 100000</sub>(works))
 
-**c.** Π person_name(σ<sub>salary > 100000 ^ city = "Miami"</sub>(works x employee))
+**c.** Π<sub>person_name</sub>(σ<sub>salary > 100000 ^ city = "Miami"</sub>(works x employee))
 
 ## 6.3
+  
+**a.** Π<sub>branch_name</sub> (σ<sub>branch_city = "Chicago"</sub>(branch))
 
-a. σ<sub>branch_city = "Chicago"</sub>(branch)
+**b.** Π<sub>ID</sub> (σ<sub>branch_name = "Downtown"</sub> (loan ⋈<sub>loan.loan_number=borrower.loan_number</sub> borrower) )
 
-b. 
+## 6.4
+
+
+
+## 6.10
+
+<!--  -->
+
+## 6.11
+
+<!--  -->
+
+## 6.12
+
+<!--  -->

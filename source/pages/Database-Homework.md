@@ -64,7 +64,7 @@ Delete from department where dept_name = 'Comp. Sci.';
 
 ## 2.8
 
-<!--  -->
+![题2.8图]("../static/Database-Homework/Pic-2.8.jpg")
 
 ## 2.9
 
@@ -73,29 +73,41 @@ Delete from department where dept_name = 'Comp. Sci.';
 
 ## 6.2
 
-**a.** Π<sub>person_name</sub>(σ<sub>city = "Miami"</sub>(employee))
+**a.** Π<sub>person_name</sub>(σ<sub>city = "Miami"</sub>(employee) )
 
-**b.** Π<sub>person_name</sub>(σ<sub>salary > 100000</sub>(works))
+**b.** Π<sub>person_name</sub>(σ<sub>salary > 100000</sub>(works) )
 
-**c.** Π<sub>person_name</sub>(σ<sub>salary > 100000 ^ city = "Miami"</sub>(works x employee))
+**c.** Π<sub>person_name</sub>(σ<sub>salary > 100000 ∧ city = "Miami"</sub>(works ⋈<sub>works.person_name = employee.person_name</sub> employee) )
 
 ## 6.3
   
-**a.** Π<sub>branch_name</sub> (σ<sub>branch_city = "Chicago"</sub>(branch))
+**a.** Π<sub>branch_name</sub> (σ<sub>branch_city = "Chicago"</sub>(branch) )
 
-**b.** Π<sub>ID</sub> (σ<sub>branch_name = "Downtown"</sub> (loan ⋈<sub>loan.loan_number=borrower.loan_number</sub> borrower) )
+**b.** Π<sub>ID</sub> (σ<sub>branch_name = "Downtown"</sub> (loan <sub>loan.loan_number = borrower.loan_number</sub> borrower) )
 
 ## 6.4
 
+> 图6-11 没有 `ID`, 姑且在 `employee` 加个 `ID`
 
+**a.** Π<sub>works.person_name, employee.ID</sub>(σ<sub>company_name != "BigBank"</sub>(works ⋈<sub>works.person_name = employee.person_name</sub> employee) ) 
+
+**b.** 不会
 
 ## 6.10
 
-<!--  -->
+**a.** Π<sub>works.person_name, employee.ID</sub>(σ<sub>company_name = "BigBank"</sub>(works ⋈<sub>works.person_name = employee.person_name</sub> employee) ) 
+
+**b.** Π<sub>works.person_name, employee.ID, employee.city</sub>(σ<sub>company_name = "BigBank"</sub>(works ⋈<sub>works.person_name = employee.person_name</sub> employee) ) 
+
+**c.** Π<sub>works.person_name, employee.ID, employee.city</sub>(σ<sub>company_name = "BigBank" ∧ salary > 100000</sub>(works ⋈<sub>works.person_name = employee.person_name</sub> employee) ) 
 
 ## 6.11
 
-<!--  -->
+**a.** Π<sub>loan_number</sub> (σ<sub>amount > 10000</sub>(loan) )
+
+**b.** Π<sub>ID</sub> (account ⨝<sub>borrower.account_number = account.account_number</sub> (σ<sub>balance > 6000 </sub>account))
+
+**c.** 不会
 
 ## 6.12
 

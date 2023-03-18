@@ -2,7 +2,7 @@
 title: 数据库原理作业
 tags: 作业
 date: 2023-02-23
-cover: ../static/Database-Homework/cover.jpg
+cover: /static/Database-Homework/cover.jpg
 katex: false
 ---
 
@@ -64,7 +64,7 @@ Delete from department where dept_name = 'Comp. Sci.';
 
 ## 2.8
 
-![题2.8图]("../static/Database-Homework/Pic-2.8.jpg")
+![题2.8图](/static/Database-Homework/Pic-2.8.jpg)
 
 ## 2.9
 

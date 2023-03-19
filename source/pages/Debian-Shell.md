@@ -1,5 +1,5 @@
 ---
-title: Debian常用命令记录
+title: Debian/Ubuntu常用命令记录
 tags: Linux
 date: 2023-01-20
 cover: ../static/Debian-Shell/cover.jpg
@@ -9,29 +9,30 @@ katex: false
 
 # Debian常用命令记录
 
-> 本篇主要记录折腾树莓派的过程
-> 记录常用的软件和命令
+> 本篇主要记录安装**树莓派和云服务器**软件的过程
+> `Ubuntu` 是基于 `Debian` 开发的发行版, 大部分命令都通用
 
 ## 开启root账号ssh
 
 ```shell
-sudo passwd root                                                                  # 设置root账户密码
 sudo passwd --unlock root                                                         # 解除禁用root账户
 sudo sed -i "s/^#PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config    # 设置ssh允许root账户登陆
 sudo systemctl restart ssh                                                        # 重启ssh
-sudo cp ~/.bashrc /root/.bashrc                                                   # 将当前账户配置应用到root账号
 ```
->  ssh遇到警告  
->  ` ssh-keygen -R 123.60.208.1       # 清除ssh指纹 `
+>  ssh警告 (防止中间人攻击) 
+>  ` ssh-keygen -R yangrucheng.top`      清除ssh指纹 
+
 ## 更换源及升级包
 
 ### 更改软件源
 
+> 树莓派默认使用国外镜像源, 可修改为国内镜像源. 效果不如使用代理
+
 ```shell
-sudo nano /etc/apt/sources.list  # 修改软件源
+vi /etc/apt/sources.list  # 修改软件源
 ```
 ```shell
-# arm64
+# 树莓派arm64
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
@@ -53,39 +54,24 @@ deb https://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ bullseye main
 ### 升级包
 
 ```shell
-sudo apt-get update      # 更新软件清单
-sudo apt-get upgrade     # 更新所有软件
+sudo apt update      # 更新软件清单
+sudo apt upgrade     # 更新所有软件
 ```
 ## 更改语言
 
 ```shell
-sudo apt-get install ttf-wqy-zenhei   # 安装中文字库
+sudo apt install ttf-wqy-zenhei   # 安装中文字库
 sudo fc-cache                         # 安装中文字体
 sudo dpkg-reconfigure locales         # 设置语言
-```
-## 连接WIFI
-
-```shell
-nmtui
-```
-
-## 树莓派获取CPU温度及控制GPIO电平
-
-```shell
-cat sys/class/thermal/thermal_zone0/temp   # 获取CPU温度
-cd /sys/class/gpio                         # 进入系统目录
-ls                                         # 列举启用的IO引脚
-sudo echo 15 > export                      # 启用GPIO15
-cd gpio15                                  # 进入GPIO15目录
-sudo echo out > direction                  # 设置GPIO模式为输出
-sudo echo 1 > value                        # 开
-sudo echo 0 > value                        # 关
-sudo echo 15 > unexport                    # 禁用GPIO15
 ```
 
 ## 网络配置
 
 > 使用nmtui工具配置
+
+```shell
+apt install network-manger
+```
 
 ## 安装Docker及常用镜像
 
@@ -195,11 +181,11 @@ docker run --restart always --name Debian -d -v /home/root/Docker/Debian:/home m
 ### OpenWrt
 
 创建Macvlan
-```
+```shell
 docker network create -d macvlan --subnet=10.10.2.0/24 --gateway=10.10.2.1  -o parent=eth0 macvlan-4G
 ```
 
-```
+```shell
 docker run --restart always --name OpenWrt -d --network macvlan --ip=192.168.123.2 --hostname Openwrt sulinggg/openwrt:aarch64_generic /sbin/init
 ```
 
@@ -250,25 +236,10 @@ mondedie/flarum
 
 ## 安装Zerotier 
 
-> 香橙派无tun模块, 无法使用, 改用Autossh
+> 依赖Linux内核的tun模块, 可以考虑改用Cloudflare免费的内网穿透
+> 
 ```shell
 curl -s https://install.zerotier.com | sudo bash   # 安装
 sudo zerotier-cli join 632ea29085dbe40e            # 加入网络
 sudo killall -9 zerotier-one                       # 重启
-```
-
-```shell
-autossh -M 4010 -NR 8080:localhost:8080 root@123.60.208.1
-```
-
-## Go-CQhttp
-
-```shell
-docker run \
-  -v /path/to/config.yml:/data/config.yml \
-  -v /path/to/device.json:/data/device.json \
-  -p 2333:8080 \
-  -d \
-  --name CQhttp \
-  ghcr.io/mrs4s/go-cqhttp:master
 ```

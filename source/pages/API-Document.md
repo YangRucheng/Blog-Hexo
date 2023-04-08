@@ -65,8 +65,18 @@ data可以是Array, 也可以是object
 响应
 ```json
 [
-    {"img": "https://t.idceo.cn/LightPicture/2023/04/ad957b0b4cd38f22.jpg"}, // 轮播图链接
-    {"img": "https://t.idceo.cn/LightPicture/2023/04/ad957b0b4cd38f22.jpg"}
+    {
+        "img": "https://t.idceo.cn/LightPicture/2023/04/ad957b0b4cd38f22.jpg", // 轮播图链接
+        "title": "通知标题1",
+        "notice": "通知内容1...巴拉巴拉...通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉",
+        "time": "2021-01-12 12:00"
+    },
+    {
+        "img": "https://t.idceo.cn/LightPicture/2023/04/ad957b0b4cd38f22.jpg",
+        "title": "通知标题2",
+        "notice": "通知内容2...巴拉巴拉...通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉",
+        "time": "2021-01-12 18:00"
+    }
 ]
 ```
 

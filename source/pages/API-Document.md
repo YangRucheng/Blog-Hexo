@@ -56,7 +56,7 @@ data可以是Array, 也可以是object
     "token": "12ehifr"
 }
 ```
-**注意**图片可以是base64格式的URL, 但必须以`data:image/png;base64,`开头, 后面的上传头像也是相同的格式
+**注意** 图片也可以是base64格式的URL, 但必须以`data:image/png;base64,`开头
 
 ### 获取首页轮播图
 `GET`
@@ -64,20 +64,17 @@ data可以是Array, 也可以是object
 
 响应
 ```json
-[
-    {
+[{
         "img": "https://t.idceo.cn/LightPicture/2023/04/ad957b0b4cd38f22.jpg", // 轮播图链接
         "title": "通知标题1",
         "notice": "通知内容1...巴拉巴拉...通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉",
         "time": "2021-01-12 12:00"
-    },
-    {
+},{
         "img": "https://t.idceo.cn/LightPicture/2023/04/ad957b0b4cd38f22.jpg",
         "title": "通知标题2",
         "notice": "通知内容2...巴拉巴拉...通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉通知内容巴拉巴拉",
         "time": "2021-01-12 18:00"
-    }
-]
+}]
 ```
 
 ### 获取排行榜
@@ -273,11 +270,14 @@ data可以是Array, 也可以是object
     "exam_id": "exam_id",
     "answer": [{
         "problem_id": "wndjn",
-        "answer": ["A", "B"] // 之所以写成这样, 是因为在Python中 `["A", "B"]` 和 `"AB"` 几乎没有区别
+        "answer": ["A", "B"], // 之所以写成这样, 是因为在Python中 `["A", "B"]` 和 `"AB"` 几乎没有区别
+        "complete_time": "1分12秒" // 单个题目的用时
     },{
         "problem_id": "wn2djn",
-        "answer": ["A", "B", "C"]
-    }]
+        "answer": ["A", "B", "C"],
+        "complete_time": "12秒"
+    }],
+    "complete_time": "1分24秒" // 总共用时
 }
 ```
 
@@ -285,6 +285,5 @@ data可以是Array, 也可以是object
 ```json
 {
     "correctNum": 1, // 总共对了几道题, 不需要具体哪几道, 因为还是要去历史错题那里查看
-    "complete_time": "12秒" // 用了多久
 }
 ```

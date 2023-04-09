@@ -29,7 +29,11 @@ data可以是Array, 也可以是object
 }
 ```
 
-**后面的数据示例不再重复这个结构, 只展示data的内容**
+**注意** 后面的数据示例不再重复这个结构, 只展示data的内容
+
+**关于Cookies** 所有请求都会携带登录请求时下发的Cookies
+
+**关于token** 非必要鉴权且不需要区分用户的请求不携带token, 如需判断是否是小程序用户的请求, 请判断Cookies
 
 ## API
 
@@ -121,7 +125,7 @@ data可以是Array, 也可以是object
 ```json
 [{
     "img": "https://t.idceo.cn/LightPicture/2023/04/ad957b0b4cd38f22.jpg", // 每日练习的配图
-    "exam_id": "1234455", // 练习ID, 不重复
+    "exam_id": "1234455", // 练习ID, 对应着一组题目
     "title": "2021-01-12 练习题", // 标题
     "introduce": "简介数据由题目摘要生成, 简介数据由题目摘要生成", // 简介
     "completeNum": 23, // 完成人数
@@ -152,7 +156,7 @@ data可以是Array, 也可以是object
 响应
 ```json
 [{
-    "problem_id": "sdh38dh", // 题目ID, 不重复
+    "problem_id": "sdh38dh", // 题目ID, 对应着唯一的一个题目
     "problem": "刘思科是哪个学院的学生?题目长度测试题目长度测试题目长度测试", // 题目内容
     "type": "单选题", // 题目类型, 只有"单选题","多选题","判断题"三种
     "result": true, // 
@@ -270,11 +274,11 @@ data可以是Array, 也可以是object
     "exam_id": "exam_id",
     "answer": [{
         "problem_id": "wndjn",
-        "answer": ["A", "B"], // 之所以写成这样, 是因为在Python中 `["A", "B"]` 和 `"AB"` 几乎没有区别
+        "user_answer": "AB", // 之所以写成这样, 是因为在Python中 `["A", "B"]` 和 `"AB"` 几乎没有区别
         "complete_time": "1分12秒" // 单个题目的用时
     },{
         "problem_id": "wn2djn",
-        "answer": ["A", "B", "C"],
+        "user_answer": "ABC",
         "complete_time": "12秒"
     }],
     "complete_time": "1分24秒" // 总共用时
@@ -285,5 +289,58 @@ data可以是Array, 也可以是object
 ```json
 {
     "correctNum": 1, // 总共对了几道题, 不需要具体哪几道, 因为还是要去历史错题那里查看
+}
+```
+
+### 获取(文件的)类型列表
+`GET`
+无参数
+
+响应
+```json
+[]
+```
+
+
+### 获取文件列表
+`GET`
+```js
+/**
+ * @param {string} fileType_id 文件类型
+ */
+```
+
+响应
+```json
+[{
+    "img": "https://t.idceo.cn/LightPicture/2023/04/361778b90a08eb11.png", // 建议使用文件logo
+    "exam_id": "1234455", // 与上面的exam_id功能一致, 对应着一组题目
+    "file_id": "duehdi2212", // 获取文件内容时使用
+    "title": "中共十二大报告解析",
+}, {
+    "img": "https://t.idceo.cn/LightPicture/2023/04/361778b90a08eb11.png",
+    "exam_id": "1234455",
+    "file_id": "duehdi2212",
+    "title": "高举中国特色社会主义伟大旗帜为全面建设社会主义",
+}, {
+    "img": "https://t.idceo.cn/LightPicture/2023/04/361778b90a08eb11.png",
+    "exam_id": "1234455",
+    "file_id": "duehdi2212",
+    "title": "中共十二大报告解析2",
+}]
+```
+
+### 获取文件内容
+参数
+```js
+/**
+ * @param {string} file_id 文件ID
+ */
+```
+
+响应
+```json
+{
+    "content": "<h1>富文本内容</h1><p>内容</p>"
 }
 ```

@@ -94,32 +94,32 @@ sudo nano /etc/docker/daemon.json            # 修改镜像源
 ### 安装Docker图形管理界面
 
 ```shell
-docker run -d -p 9000:9000 --name=Portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /home/root/Docker/Portainer:/data outlovecn/portainer-cn:latest
+docker run -d -p 9000:9000 --name=Portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /home/Docker/Portainer:/data outlovecn/portainer-cn:latest
 ```
 
 ### 安装AdGuardHome
 
 ```shell
-docker run -d -p 53:53/tcp -p 53:53/udp -p 8000:3000/tcp --name AdGuardHome -v /home/root/Docker/AdGuardHome/Config:/opt/adguardhome/conf -v /home/root/Docker/AdGuardHome/WorkData:/opt/adguardhome/work --restart=always adguard/adguardhome
+docker run -d -p 53:53/tcp -p 53:53/udp -p 8000:3000/tcp --name AdGuardHome -v /home/Docker/AdGuardHome/Config:/opt/adguardhome/conf -v /home/Docker/AdGuardHome/WorkData:/opt/adguardhome/work --restart=always adguard/adguardhome
 ```
 > 注意: 不要开启 **浏览安全网页服务** 功能, 否则将会导致DNS解析异常
 
 ### 安装Clash
 
 ```shell
-docker run -d --name=Clash -v /home/root/Docker/Clash:/root/.config/clash -p 520:520 -p 521:521 -p 9090:9090 --restart=unless-stopped dreamacro/clash
+docker run -d --name=Clash -v /home/Docker/Clash:/root/.config/clash -p 520:520 -p 521:521 -p 9090:9090 --restart=unless-stopped dreamacro/clash
 ```
 
 ### 青龙面板
 
 ```shell
 docker run -dit \
--v /home/root/Docker/ql/config:/ql/config \
--v /home/root/Docker/ql/log:/ql/log \
--v /home/root/Docker/ql/db:/ql/db \
--v /home/root/Docker/ql/scripts:/ql/scripts \
--v /home/root/Docker/ql/jbot:/ql/jbot \
--v /home/root/Docker/ql/repo:/ql/repo \
+-v /home/Docker/ql/config:/ql/config \
+-v /home/Docker/ql/log:/ql/log \
+-v /home/Docker/ql/db:/ql/db \
+-v /home/Docker/ql/scripts:/ql/scripts \
+-v /home/Docker/ql/jbot:/ql/jbot \
+-v /home/Docker/ql/repo:/ql/repo \
 -p 7000:5700 \
 -e ENABLE_HANGUP=true \
 -e ENABLE_WEB_PANEL=true \
@@ -132,20 +132,20 @@ whyour/qinglong:latest
 ### MariaDB
 
 ``` shell
-docker run --restart=always -d --name MariaDB --env MARIADB_ROOT_PASSWORD=YourPassword! -v /home/root/Docker/MariaDB:/var/lib/mysql -p 3306:3306  mariadb:latest
+docker run --restart=always -d --name MariaDB --env MARIADB_ROOT_PASSWORD=YourPassword! -v /home/Docker/MariaDB:/var/lib/mysql -p 3306:3306  mariadb:latest
 ```
 
 ### MongoDB 
 
 > 在香橙派上必须使用4.4.18版本, 不支持5.0+版本
 ``` shell
-docker run -itd --name  MongoDB -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=YourPassword! -v /home/root/Docker/MongoDB:/data/db -p 27017:27017 mongo:4.4.18
+docker run -itd --name  MongoDB -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=YourPassword! -v /home/Docker/MongoDB:/data/db -p 27017:27017 mongo:4.4.18
 ```
 
 ### HomeAssistant
 
 ``` shell
-docker run -d --name HomeAssistant -v /home/root/Docker/HomeAssistant/config:/config -p 8500:8123 homeassistant/home-assistant
+docker run -d --name HomeAssistant -v /home/Docker/HomeAssistant/config:/config -p 8500:8123 homeassistant/home-assistant
 ```
 
 ### QBittorrent
@@ -159,34 +159,10 @@ docker run -d \
   -e WEBUI_PORT=7500 \
   -p 7500:7500 \
   -p 6881:6881 \
-  -p 6881:6881/udp \
-  -v /home/root/Docker/QBittorrent/config:/config \
-  -v /home/root/Docker/QBittorrent/downloads:/downloads \
+  -v /home/Docker/QBittorrent/config:/config \
+  -v /share/Public:/file-data \
   --restart unless-stopped \
-  linuxserver/qbittorrent:4.4.3
-```
-
-### Debian基础镜像
-
-```shell
-ip link set eth0 promisc on # 网卡开启混杂模式
-docker network create -d macvlan --subnet=192.168.123.0/24 --gateway=192.168.123.1 -o parent=eth0 macvlan  # 创建macvlan网络
-```
-
-```shell
-docker run --restart always --name Debian -d -v /home/root/Docker/Debian:/home --network 4G mydebian # 自定义网桥
-docker run --restart always --name Debian -d -v /home/root/Docker/Debian:/home mydebian              # 默认网桥
-```
-
-### OpenWrt
-
-创建Macvlan
-```shell
-docker network create -d macvlan --subnet=10.10.2.0/24 --gateway=10.10.2.1  -o parent=eth0 macvlan-4G
-```
-
-```shell
-docker run --restart always --name OpenWrt -d --network macvlan --ip=192.168.123.2 --hostname Openwrt sulinggg/openwrt:aarch64_generic /sbin/init
+  linuxserver/qbittorrent
 ```
 
 ### Flarum
@@ -199,12 +175,12 @@ services:
     image: mondedie/flarum
     container_name: Flarum
     env_file:
-      - /home/root/Docker/Forum/flarum.env
+      - /home/Docker/Forum/flarum.env
     volumes:
-      - /home/root/Docker/Forum/assets:/flarum/app/public/assets
-      - /home/root/Docker/Forum/extensions:/flarum/app/extensions
-      - /home/root/Docker/Forum/storage/logs:/flarum/app/storage/logs
-      - /home/root/Docker/Forum/nginx:/etc/nginx/flarum
+      - /home/Docker/Forum/assets:/flarum/app/public/assets
+      - /home/Docker/Forum/extensions:/flarum/app/extensions
+      - /home/Docker/Forum/storage/logs:/flarum/app/storage/logs
+      - /home/Docker/Forum/nginx:/etc/nginx/flarum
     ports:
       - 8000:8888
     depends_on:
@@ -242,4 +218,21 @@ mondedie/flarum
 curl -s https://install.zerotier.com | sudo bash   # 安装
 sudo zerotier-cli join 632ea29085dbe40e            # 加入网络
 sudo killall -9 zerotier-one                       # 重启
+```
+
+### 安装 OpenSSH 沙盒 Linux
+
+```shell
+docker run -d \
+  --name=OpenSSH-Server \
+  --hostname=Server \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Aisa/Shanghai \
+  -e PASSWORD_ACCESS=true \
+  -e USER_PASSWORD=730 \
+  -e USER_NAME=user \
+  -p 2222:2222 \
+  --restart unless-stopped \
+  lscr.io/linuxserver/openssh-server:latest
 ```

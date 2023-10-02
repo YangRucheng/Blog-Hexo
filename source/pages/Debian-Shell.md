@@ -42,7 +42,9 @@ deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib
 deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
 ```
-### 更新系统源
+### 更新树莓派系统源
+
+> 使用代理比修改源更安全且快速
 
 ```shell
 sudo nano /etc/apt/sources.list.d/raspi.list  # 修改系统源
@@ -67,10 +69,10 @@ sudo dpkg-reconfigure locales         # 设置语言
 
 ## 网络配置
 
-> 使用nmtui工具配置
+> 使用nmtui工具配置WIFI
 
 ```shell
-apt install network-manger
+apt install network-manager
 ```
 
 ## 安装Docker及常用镜像
@@ -104,10 +106,10 @@ docker run -d -p 53:53/tcp -p 53:53/udp -p 8000:3000/tcp --name AdGuardHome -v /
 ```
 > 注意: 不要开启 **浏览安全网页服务** 功能, 否则将会导致DNS解析异常
 
-### 安装Clash
+### AList
 
 ```shell
-docker run -d --name=Clash -v /home/Docker/Clash:/root/.config/clash -p 520:520 -p 521:521 -p 9090:9090 --restart=unless-stopped dreamacro/clash
+docker run -d --restart=always -v /home/Docker/AList/data:/opt/alist/data -v /home/Docker/AList/file:/file-data -p 5244:5244  --name AList xhofe/alist-aria2:latest
 ```
 
 ### 青龙面板
@@ -210,6 +212,21 @@ docker run --name Flarum -p 8000:8888
 mondedie/flarum
 ```
 
+### OpenSSH-Server
+
+```shell
+docker run -d \
+  --name=OpenSSH-Server \
+  --hostname=Server \
+  -e TZ=Aisa/Shanghai \
+  -e PASSWORD_ACCESS=true \
+  -e USER_PASSWORD=730 \
+  -e USER_NAME=user \
+  -p 2222:2222 \
+  --restart unless-stopped \
+  lscr.io/linuxserver/openssh-server:latest
+```
+
 ## 安装Zerotier 
 
 > 依赖Linux内核的tun模块, 可以考虑改用Cloudflare免费的内网穿透
@@ -220,19 +237,6 @@ sudo zerotier-cli join 632ea29085dbe40e            # 加入网络
 sudo killall -9 zerotier-one                       # 重启
 ```
 
-### 安装 OpenSSH 沙盒 Linux
+## 安装ShellClash
 
-```shell
-docker run -d \
-  --name=OpenSSH-Server \
-  --hostname=Server \
-  -e PUID=1000 \
-  -e PGID=1000 \
-  -e TZ=Aisa/Shanghai \
-  -e PASSWORD_ACCESS=true \
-  -e USER_PASSWORD=730 \
-  -e USER_NAME=user \
-  -p 2222:2222 \
-  --restart unless-stopped \
-  lscr.io/linuxserver/openssh-server:latest
-```
+[官方文档](https://github.com/juewuy/ShellClash/blob/master/README_CN.md)

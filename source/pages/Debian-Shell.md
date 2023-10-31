@@ -109,7 +109,11 @@ docker run -d -p 53:53/tcp -p 53:53/udp -p 8000:3000/tcp --name AdGuardHome -v /
 ### AList
 
 ```shell
-docker run -d --restart=always -v /home/Docker/AList/data:/opt/alist/data -v /home/Docker/AList/file:/file-data -p 5244:5244  --name AList xhofe/alist-aria2:latest
+docker run -d --restart=always -v /home/Docker/AList/data:/opt/alist/data -v /home/Docker/AList/file:/file-data -p 5244:5244 -p 6800:6800  --name AList xhofe/alist-aria2:latest
+```
+
+```shell
+docker run -d --name AriaNg --log-opt max-size=1m --restart unless-stopped -p 6880:6880 p3terx/ariang
 ```
 
 ### 青龙面板

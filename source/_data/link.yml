@@ -1,0 +1,8 @@
+- class_name: 推荐博客
+  flink_style: flexcard
+  link_list:
+    - name: Zeng的炼丹房
+      link: https://csuer411.github.io
+      avatar: https://avatars.githubusercontent.com/u/97239215?v=4
+      descr: 努力成为Kaggle Master
+      siteshot: https://csuer411.github.io/img/favicon.ico

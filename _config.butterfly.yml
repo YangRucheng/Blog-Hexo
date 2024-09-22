@@ -1,0 +1,68 @@
+# Hexo 配置文件
+nav:
+  logo: /favicon.ico
+  display_title: true
+  fixed: false # fixed navigation bar
+
+# 网站
+default_top_img: /static/images/默认背景.jpg
+favicon: /favicon.ico
+
+# 社交图标
+social:
+  fab fa-github: https://github.com/YangRucheng || Github
+  fab fa-qq: https://qm.qq.com/q/rtZpWJIgPQ || QQ
+  fab fa-bilibili: https://space.bilibili.com/472876342 || 哔哩哔哩
+  fab fa-house: https://misaka-network.top || 御坂网络工作室
+  fas fa-envelope: mailto:admin@yangrucheng.top || Email
+
+# 头像
+avatar:
+  img: https://avatars.githubusercontent.com/u/60175467?v=4
+  effect: true
+
+# 侧边栏
+aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: true
+  position: right
+  card_author:
+    enable: true
+    description:
+    button:
+      enable: true
+      icon: fab fa-github
+      text: 关注我的GitHub
+      link: https://github.com/YangRucheng
+  card_announcement:
+    enable: true
+    content: 欢迎来到我的小站👏🏻
+# 菜单
+menu:
+  首页: / || fa fa-home
+  时间轴: /archives/ || fa fa-archive
+  标签: /tags/ || fa fa-tags
+  分类: /categories/ || fa fa-folder-open
+  友链: /link/ || fa fa-link
+
+# 右下角按钮
+darkmode:
+  enable: true
+  button: true
+  autoChangeMode: 1
+rightside_scroll_percent: true
+
+# 评论
+# Giscus https://giscus.app/
+giscus:
+  repo: "YangRucheng/Blog-Hexo"
+  repo_id: "R_kgDOI4-j6Q"
+  category_id: "DIC_kwDOI4-j6c4CUaSX"
+  theme:
+    light: light
+    dark: dark
+
+# 页脚内容
+custom_text: <a href="icp链接"><img class="icp-icon" src="icp图片"><span>备案号：xxxxxx</span></a>

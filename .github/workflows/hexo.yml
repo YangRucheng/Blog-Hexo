@@ -1,0 +1,56 @@
+name: Hexo Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-blog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 签出仓库
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: 签出主题仓库
+        uses: actions/checkout@v4
+        with:
+          repository: jerryc127/hexo-theme-butterfly
+          path: themes/butterfly
+
+      - name: 安装Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 设置包缓存目录
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache
+          restore-keys: ${{ runner.OS }}-npm-cache
+
+      - name: 安装依赖
+        run: npm install
+
+      - name: 构建
+        run: npm run build
+
+      - name: 上传构建产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+          
+      - name: Deploy to GitHub Pages
+        run: |
+          git config --global user.email "misaka@yangrucheng.top"
+          git config --global user.name "Misaka-1314"
+          cd public
+          git init --initial-branch=main
+          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git add .
+          git commit -m "Deploy to GitHub Pages"
+          git push --force origin main:pages

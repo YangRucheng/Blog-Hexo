@@ -54,6 +54,13 @@ darkmode:
   autoChangeMode: 1
 rightside_scroll_percent: true
 
+# 封面
+cover:
+  index_enable: true
+  aside_enable: true
+  archives_enable: true
+  default_cover: https://api.anosu.top/img/?sort=furry
+
 # 评论
 # Giscus https://giscus.app/
 giscus:

@@ -14,7 +14,7 @@ favicon:
 
 # 链接
 url: https://blog.yangrucheng.top
-permalink: posts/:year:month/:hash/
+permalink: posts/:year/:month/:hash/
 pretty_urls:
   trailing_index: false
   trailing_html: false

@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-blog:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: 签出仓库
@@ -21,10 +21,10 @@ jobs:
           repository: jerryc127/hexo-theme-butterfly
           path: themes/butterfly
 
-      - name: 安装Node.js
+      - name: 安装 Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: 设置包缓存目录
         uses: actions/cache@v4
@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
-          
+
       - name: Deploy to GitHub Pages
         run: |
           git config --global user.email "misaka@yangrucheng.top"

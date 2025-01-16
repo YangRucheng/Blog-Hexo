@@ -10,10 +10,9 @@ favicon: /favicon.ico
 
 # 社交图标
 social:
-  fab fa-github: https://github.com/YangRucheng || Github
+  fab fa-github: https://github.com/YangRucheng/Blog-Hexo || Github
   fab fa-qq: https://qm.qq.com/q/rtZpWJIgPQ || QQ
   fab fa-bilibili: https://space.bilibili.com/472876342 || 哔哩哔哩
-  fab fa-house: https://misaka-network.top || 御坂网络工作室
   fas fa-envelope: mailto:admin@yangrucheng.top || Email
 
 # 头像
@@ -62,11 +61,18 @@ cover:
   default_cover: https://api.anosu.top/img/?sort=furry
 
 # 评论
+comments:
+  use: Giscus
+  text: true
+  lazyload: false
+  count: true
+  card_post_count: false
+
 # Giscus https://giscus.app/
 giscus:
-  repo: "YangRucheng/Blog-Hexo"
-  repo_id: "R_kgDOI4-j6Q"
-  category_id: "DIC_kwDOI4-j6c4CUaSX"
+  repo: YangRucheng/Blog-Hexo 
+  repo_id: R_kgDOI4-j6Q
+  category_id: DIC_kwDOI4-j6c4CUaSW
   theme:
     light: light
     dark: dark

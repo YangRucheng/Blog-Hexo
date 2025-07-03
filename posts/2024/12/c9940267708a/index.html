@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>把 NoneBot 接入微信公众号 —— 写一个 Adapter | 符号看象限</title><meta name="author" content="YangRucheng"><meta name="copyright" content="YangRucheng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本篇记录写一个 NoneBot2 Adapter for 微信公众平台 学到的语法  阅读前，默认您已经了解 NoneBot 的构成 并熟悉事件处理流程。本文均以 微信公众平台使用的 WebHook 方式推送事件为例。 如何写一个 adapter ？参考 编写适配器 1234567891011121314nonebot-adapter-wxmp├── nonebot│   ├── adapter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="把 NoneBot 接入微信公众号 —— 写一个 Adapter">
+<meta property="og:url" content="https://blog.yangrucheng.top/posts/2024/12/c9940267708a/">
+<meta property="og:site_name" content="符号看象限">
+<meta property="og:description" content="本篇记录写一个 NoneBot2 Adapter for 微信公众平台 学到的语法  阅读前，默认您已经了解 NoneBot 的构成 并熟悉事件处理流程。本文均以 微信公众平台使用的 WebHook 方式推送事件为例。 如何写一个 adapter ？参考 编写适配器 1234567891011121314nonebot-adapter-wxmp├── nonebot│   ├── adapter">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://api.anosu.top/img/?sort=furry&_=2">
+<meta property="article:published_time" content="2024-12-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-03T04:19:43.817Z">
+<meta property="article:author" content="YangRucheng">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="NoneBot">
+<meta property="article:tag" content="QQ Bot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://api.anosu.top/img/?sort=furry&_=2"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "把 NoneBot 接入微信公众号 —— 写一个 Adapter",
+  "url": "https://blog.yangrucheng.top/posts/2024/12/c9940267708a/",
+  "image": "https://api.anosu.top/img/?sort=furry&_=2",
+  "datePublished": "2024-12-19T16:00:00.000Z",
+  "dateModified": "2025-07-03T04:19:43.817Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "YangRucheng",
+      "url": "https://blog.yangrucheng.top"
+    }
+  ]
+}</script><link rel="shortcut icon" href="https://github.com/YangRucheng.png"><link rel="canonical" href="https://blog.yangrucheng.top/posts/2024/12/c9940267708a/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '把 NoneBot 接入微信公众号 —— 写一个 Adapter',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://github.com/YangRucheng.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://api.anosu.top/img/?sort=furry&amp;_=2);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="https://github.com/YangRucheng.png" alt="Logo"><span class="site-name">符号看象限</span></a><a class="nav-page-title" href="/"><span class="site-name">把 NoneBot 接入微信公众号 —— 写一个 Adapter</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">把 NoneBot 接入微信公众号 —— 写一个 Adapter</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-19T16:00:00.000Z" title="发表于 2024-12-20 00:00">2024-12-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-07-03T04:19:43.817Z" title="更新于 2025-07-03 12:19">2025-07-03</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>本篇记录写一个 <a target="_blank" rel="noopener" href="https://github.com/YangRucheng/nonebot-adapter-wxmp">NoneBot2 Adapter for 微信公众平台</a> 学到的语法</p>
+</blockquote>
+<p>阅读前，默认您已经了解 <a target="_blank" rel="noopener" href="https://nonebot.dev/docs/tutorial/fundamentals">NoneBot 的构成</a> 并熟悉事件处理流程。<br>本文均以 微信公众平台使用的 WebHook 方式推送事件为例。</p>
+<h2 id="如何写一个-adapter-？"><a href="#如何写一个-adapter-？" class="headerlink" title="如何写一个 adapter ？"></a>如何写一个 adapter ？</h2><p>参考 <a target="_blank" rel="noopener" href="https://nonebot.dev/docs/developer/adapter-writing">编写适配器</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">nonebot-adapter-wxmp</span><br><span class="line">├── nonebot</span><br><span class="line">│   ├── adapters</span><br><span class="line">│   │   ├── wxmp</span><br><span class="line">│   │   │   ├── __init__.py</span><br><span class="line">│   │   │   ├── adapter.py</span><br><span class="line">│   │   │   ├── bot.py</span><br><span class="line">│   │   │   ├── config.py</span><br><span class="line">│   │   │   ├── event.py</span><br><span class="line">│   │   │   ├── util.py</span><br><span class="line">│   │   │   ├── exception.py</span><br><span class="line">│   │   │   └── message.py</span><br><span class="line">├── pyproject.toml</span><br><span class="line">└── README.md</span><br></pre></td></tr></table></figure>
+
+<p>adapter 的结果在官方文档中已有详细介绍，不在此赘述。</p>
+<h3 id="adapter-中的处理流程"><a href="#adapter-中的处理流程" class="headerlink" title="adapter 中的处理流程"></a>adapter 中的处理流程</h3><ol>
+<li>首先由 <code>adapter.py</code> 中注册的 POST 请求处理函数 <code>handle_http</code> 处理原始请求。<code>handle_http</code> 进行验签（解密）。</li>
+<li><code>parse_body</code> 负责将 body 转为 dict。</li>
+<li><code>payload_to_event</code> 将 dict 使用 pydantic 的 model_validate 转为 <code>Event</code> 的派生类。</li>
+<li><code>dispatch_event</code> 负责分发事件，调用 <code>bot.handle_event(event=event)</code> 处理事件。如果是公众号，需要等待用户 <code>send</code> 后再返回 Response。</li>
+</ol>
+<h2 id="学到了什么？"><a href="#学到了什么？" class="headerlink" title="学到了什么？"></a>学到了什么？</h2><h3 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h3><p>nonebot 实现了一个 <code>Bot</code> 抽象类，adapter 开发者应该继承基类实现平台 API。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Bot</span>(abc.ABC):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Bot 基类。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    用于处理上报消息，并提供 API 调用接口。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nonebot.adapters <span class="keyword">import</span> Bot <span class="keyword">as</span> BaseBot</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Bot</span>(<span class="title class_ inherited__">BaseBot</span>):</span><br><span class="line">    adapter: <span class="string">&quot;Adapter&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果直接实例化抽象类，将会：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Can&#x27;t instantiate abstract class Bot with abstract method send</span><br></pre></td></tr></table></figure>
+<p>原因：Python 在尝试实例化抽象类时，会检查类中是否有未实现的抽象方法。</p>
+<h3 id="事件回调"><a href="#事件回调" class="headerlink" title="事件回调"></a>事件回调</h3><p><a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Passive_user_reply_message.html">公众号被动回复</a></p>
+<p>需求场景：当使用者调用 <code>bot.send</code> 方法时，需要将 <code>Message</code> “发送” 给 <code>handle_http</code> 方法响应微信请求，而它们之间通过 NoneBot 的 handle_event 传递事件，没有直接调用关系。</p>
+<p>方案一：定义一个全局字典，<code>send</code> 的参数写入字典，<code>handle_http</code> 轮询字典获得数据。（耗性能，高延迟）</p>
+<p>方案二：使用 asyncio</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">OfficialReplyResponse</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">        <span class="variable language_">self</span>._futures: <span class="built_in">dict</span>[<span class="built_in">int</span>, asyncio.Future] = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">set_resp</span>(<span class="params">self, event_id: <span class="built_in">str</span>, resp: Response</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 设置响应 &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> future := <span class="variable language_">self</span>._futures.get(event_id):</span><br><span class="line">            future.set_result(resp)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> OfficialReplyError()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">get_resp</span>(<span class="params">self, event_id: <span class="built_in">str</span>, timeout: <span class="built_in">float</span></span>) -&gt; Response:</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 获取响应 &quot;&quot;&quot;</span></span><br><span class="line">        future = asyncio.get_event_loop().create_future()</span><br><span class="line">        <span class="variable language_">self</span>._futures[event_id] = future</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">await</span> asyncio.wait_for(future, timeout)</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            <span class="keyword">del</span> <span class="variable language_">self</span>._futures[event_id]</span><br></pre></td></tr></table></figure>
+<p>说明：<br><code>future = asyncio.get_event_loop().create_future()</code> 将创建一个 Future 对象，相当于一个“占位符”，它等待某个异步操作完成并返回结果。<br>当使用 <code>future.set_result(resp)</code> 时，<code>asyncio.wait_for(future, timeout)</code> 才会返回结果，否则一直 await。</p>
+<h3 id="getattr-魔法函数"><a href="#getattr-魔法函数" class="headerlink" title="getattr 魔法函数"></a>getattr 魔法函数</h3><h4 id="异步函数"><a href="#异步函数" class="headerlink" title="异步函数"></a>异步函数</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">_ApiCall</span>(<span class="title class_ inherited__">Protocol</span>):</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, **kwargs: <span class="type">Any</span></span>) -&gt; <span class="type">Any</span>: ...</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestClass</span>:</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">call_api</span>(<span class="params">self, api: <span class="built_in">str</span>, **kwargs: <span class="type">Any</span></span>) -&gt; <span class="type">Any</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;调用 <span class="subst">&#123;api&#125;</span> 异步接口&quot;</span>, kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getattr__</span>(<span class="params">self, name: <span class="built_in">str</span></span>) -&gt; <span class="string">&quot;_ApiCall&quot;</span>:</span><br><span class="line">        <span class="keyword">return</span> partial(<span class="variable language_">self</span>.call_api, name)</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    o = TestClass()</span><br></pre></td></tr></table></figure>
+<p>此时 <code>await o.any_func(a=1)</code> 与 <code>await o.call_api(api=&quot;any_func&quot;, a=1)</code> 等价</p>
+<h4 id="同步函数"><a href="#同步函数" class="headerlink" title="同步函数"></a>同步函数</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">_ApiCall</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, **kwargs: <span class="type">Any</span></span>) -&gt; <span class="type">Any</span>: ...</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestClass</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">call_api</span>(<span class="params">self, api: <span class="built_in">str</span>, **kwargs: <span class="type">Any</span></span>) -&gt; <span class="type">Any</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;调用 <span class="subst">&#123;api&#125;</span> 同步接口&quot;</span>, kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getattr__</span>(<span class="params">self, name: <span class="built_in">str</span></span>) -&gt; _ApiCall:</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">api_call</span>(<span class="params">**kwargs: <span class="type">Any</span></span>):</span><br><span class="line">            <span class="keyword">return</span> <span class="variable language_">self</span>.call_api(name, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> api_call</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    o = TestClass()</span><br></pre></td></tr></table></figure>
+<p>此时 <code>o.any_func(a=1)</code> 与 <code>o.call_api(api=&quot;any_func&quot;, a=1)</code> 等价</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://blog.yangrucheng.top">YangRucheng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://blog.yangrucheng.top/posts/2024/12/c9940267708a/">https://blog.yangrucheng.top/posts/2024/12/c9940267708a/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://blog.yangrucheng.top" target="_blank">符号看象限</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/NoneBot/">NoneBot</a><a class="post-meta__tags" href="/tags/QQ-Bot/">QQ Bot</a></div><div class="post-share"><div class="social-share" data-image="https://api.anosu.top/img/?sort=furry&amp;_=2" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/2025/02/95dfce22be52/" title="网站建设方案书"><img class="cover" src="https://api.anosu.top/img/?sort=furry&amp;_=4" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">网站建设方案书</div></div><div class="info-2"><div class="info-item-1">企业备案 网站建设方案书公司网站建设目的在数字化时代，企业的线上形象与线下运营同等重要。我司开展网站建设，旨在全方位展示公司形象，深度服务于公司日常运营。通过建立一个专业、高效且富有吸引力的网站，我们期望实现以下目标： 提升企业形象：精心设计的网站将成为企业的线上名片，以直观、生动的方式展现企业的价值观、发展历程与核心优势，在目标客户群体中树立良好的品牌形象。 开拓市场：互联网打破了地域限制，网站作为企业面向全球的窗口，能够吸引更多潜在客户，拓展市场边界，提升市场份额。 创新管理宣传模式：借助先进的网站技术和功能，建立一套全新的管理宣传体系，实现信息的快速传播与高效互动，提升企业的管理效率和宣传效果。 优化客户服务：通过网站提供丰富的服务内容和便捷的服务渠道，如在线咨询、业务办理、常见问题解答等，为企业客户提供更完善、更贴心的服务体验。 加强信息联系：搭建企业与社会各界沟通的桥梁，及时发布企业动态、行业资讯等信息，同时收集用户反馈，促进信息的双向流动。 提高运营效率：利用网站实现部分业务流程的数字化，如订单处理、客户管理等，优化内部管理流程，降低运营成本。 企业网站的建立，不仅符...</div></div></div></a><a class="pagination-related" href="/posts/2023/01/6cbc3af20e31/" title="Ubuntu 常用命令记录"><img class="cover" src="https://api.anosu.top/img/?sort=furry&amp;_=1" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Ubuntu 常用命令记录</div></div><div class="info-2"><div class="info-item-1"> 本篇主要记录 Ubuntu 安装软件的过程  开启root账号ssh12345678910# 写入证书cat ~/.ssh/id_rsa.pub | tee /root/.ssh/authorized_keys &amp;&amp; chmod 600 /root/.ssh/authorized_keys# 启用root登录sed -i &#x27;s/#PermitRootLogin prohibit-password/PermitRootLogin yes/&#x27; /etc/ssh/sshd_config# 禁用密码登录sed -i &#x27;s/#PasswordAuthentication yes/PasswordAuthentication no/&#x27; /etc/ssh/sshd_config# 启用证书登录sed -i &#x27;s/#PubkeyAuthentication yes/PubkeyAuthentication yes/&#x27; /etc/ssh/sshd_config# 重启sshsystemctl restart ssh   ...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://github.com/YangRucheng.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YangRucheng</div><div class="author-info-description">博客、分享、经验、教程</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YangRucheng"><i class="fab fa-github"></i><span>关注我的GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/YangRucheng/Blog-Hexo" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://qm.qq.com/q/rtZpWJIgPQ" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://space.bilibili.com/472876342" target="_blank" title="哔哩哔哩"><i class="fab fa-bilibili"></i></a><a class="social-icon" href="mailto:admin@yangrucheng.top" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的小站👏🏻</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA-adapter-%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">如何写一个 adapter ？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#adapter-%E4%B8%AD%E7%9A%84%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">adapter 中的处理流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E5%88%B0%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">学到了什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text">抽象类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%9B%9E%E8%B0%83"><span class="toc-number">2.2.</span> <span class="toc-text">事件回调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getattr-%E9%AD%94%E6%B3%95%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">getattr 魔法函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.1.</span> <span class="toc-text">异步函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.2.</span> <span class="toc-text">同步函数</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2025/02/95dfce22be52/" title="网站建设方案书"><img src="https://api.anosu.top/img/?sort=furry&amp;_=4" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="网站建设方案书"/></a><div class="content"><a class="title" href="/posts/2025/02/95dfce22be52/" title="网站建设方案书">网站建设方案书</a><time datetime="2025-02-19T16:00:00.000Z" title="发表于 2025-02-20 00:00">2025-02-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2024/12/c9940267708a/" title="把 NoneBot 接入微信公众号 —— 写一个 Adapter"><img src="https://api.anosu.top/img/?sort=furry&amp;_=2" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="把 NoneBot 接入微信公众号 —— 写一个 Adapter"/></a><div class="content"><a class="title" href="/posts/2024/12/c9940267708a/" title="把 NoneBot 接入微信公众号 —— 写一个 Adapter">把 NoneBot 接入微信公众号 —— 写一个 Adapter</a><time datetime="2024-12-19T16:00:00.000Z" title="发表于 2024-12-20 00:00">2024-12-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2023/01/6cbc3af20e31/" title="Ubuntu 常用命令记录"><img src="https://api.anosu.top/img/?sort=furry&amp;_=1" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ubuntu 常用命令记录"/></a><div class="content"><a class="title" href="/posts/2023/01/6cbc3af20e31/" title="Ubuntu 常用命令记录">Ubuntu 常用命令记录</a><time datetime="2023-01-19T16:00:00.000Z" title="发表于 2023-01-20 00:00">2023-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2022/03/719dbd0f8d3c/" title="常用容器配置备份"><img src="https://api.anosu.top/img/?sort=furry&amp;_=3" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常用容器配置备份"/></a><div class="content"><a class="title" href="/posts/2022/03/719dbd0f8d3c/" title="常用容器配置备份">常用容器配置备份</a><time datetime="2022-03-19T16:00:00.000Z" title="发表于 2022-03-20 00:00">2022-03-20</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By YangRucheng</span></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>湘ICP备2022020305号</span></a> <a target="_blank" rel="noopener" href="https://beian.mps.gov.cn/#/query/webSearch"><span>湘公网安备43040002000196号</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'YangRucheng/Blog-Hexo',
+      'data-repo-id': 'R_kgDOI4-j6Q',
+      'data-category-id': 'DIC_kwDOI4-j6c4CUaSW',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

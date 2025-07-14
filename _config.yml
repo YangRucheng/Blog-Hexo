@@ -9,8 +9,6 @@ keywords: "御坂网络工作室,博客,分享,经验,教程"
 author: "YangRucheng"
 language: "zh-CN"
 timezone: "Asia/Shanghai"
-favicon:
-  small: /favicon.ico
 
 # 链接
 url: https://blog.yangrucheng.top
@@ -53,9 +51,3 @@ updated_option: "mtime"
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: "butterfly"
-
-# 访问统计
-busuanzi:
-  site_uv: true
-  site_pv: true
-  page_pv: true

@@ -1,12 +1,12 @@
 # Hexo 配置文件
 nav:
-  logo: /favicon.ico
+  logo: https://github.com/YangRucheng.png
   display_title: true
   fixed: false # fixed navigation bar
 
 # 网站
 default_top_img: /static/images/默认背景.jpg
-favicon: /favicon.ico
+favicon: https://github.com/YangRucheng.png
 
 # 社交图标
 social:
@@ -17,7 +17,7 @@ social:
 
 # 头像
 avatar:
-  img: https://avatars.githubusercontent.com/u/60175467?v=4
+  img: https://github.com/YangRucheng.png
   effect: true
 
 # 侧边栏
@@ -38,6 +38,7 @@ aside:
   card_announcement:
     enable: true
     content: 欢迎来到我的小站👏🏻
+
 # 菜单
 menu:
   首页: / || fa fa-home
@@ -78,4 +79,28 @@ giscus:
     dark: dark
 
 # 页脚内容
-custom_text: <a href="icp链接"><img class="icp-icon" src="icp图片"><span>备案号：xxxxxx</span></a>
+footer:
+  owner:
+    enable: true
+    since: 2025
+  custom_text: <a href="https://beian.miit.gov.cn/#/Integrated/index"><span>湘ICP备2022020305号</span></a> <a href="https://beian.mps.gov.cn/#/query/webSearch"><span>湘公网安备43040002000196号</span></a>
+  copyright: true
+
+# 访问统计
+baidu_analytics: d63d156632659af16f30e3a10972c9b9
+cloudflare_analytics: 591ae059fa6d429cb2c89f6d75491727
+microsoft_clarity: s8xoxf658n
+umami_analytics:
+  enable: true
+  serverURL: 
+  website_id: 98a8a59e-4f66-47fe-bc7d-2fb8eba8ef51
+  option:
+  UV_PV:
+    site_uv: true
+    site_pv: true
+    page_pv: true
+    token: 
+busuanzi:
+  site_uv: true
+  site_pv: true
+  page_pv: true

@@ -1,0 +1,350 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>常用容器配置备份 | 符号看象限</title><meta name="author" content="YangRucheng"><meta name="copyright" content="YangRucheng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="安装 Portainer 容器管理工具创建网络, 以便后续使用12345678network_name&#x3D;&quot;network&quot;if docker network ls | grep -q &quot;network&quot;; then    echo &quot;网络已存在&quot;else    docker network create --driver bridge -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用容器配置备份">
+<meta property="og:url" content="https://blog.yangrucheng.top/posts/2022/03/719dbd0f8d3c/">
+<meta property="og:site_name" content="符号看象限">
+<meta property="og:description" content="安装 Portainer 容器管理工具创建网络, 以便后续使用12345678network_name&#x3D;&quot;network&quot;if docker network ls | grep -q &quot;network&quot;; then    echo &quot;网络已存在&quot;else    docker network create --driver bridge -">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://api.anosu.top/img/?sort=furry&_=3">
+<meta property="article:published_time" content="2022-03-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-20T05:18:23.578Z">
+<meta property="article:author" content="YangRucheng">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://api.anosu.top/img/?sort=furry&_=3"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "常用容器配置备份",
+  "url": "https://blog.yangrucheng.top/posts/2022/03/719dbd0f8d3c/",
+  "image": "https://api.anosu.top/img/?sort=furry&_=3",
+  "datePublished": "2022-03-19T16:00:00.000Z",
+  "dateModified": "2025-07-20T05:18:23.578Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "YangRucheng",
+      "url": "https://blog.yangrucheng.top"
+    }
+  ]
+}</script><link rel="shortcut icon" href="https://github.com/YangRucheng.png"><link rel="canonical" href="https://blog.yangrucheng.top/posts/2022/03/719dbd0f8d3c/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//static.cloudflareinsights.com"/><link rel="preconnect" href="//www.clarity.ms"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d63d156632659af16f30e3a10972c9b9";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+btf.addGlobalFn('pjaxComplete', () => {
+  _hmt.push(['_trackPageview',window.location.pathname])
+}, 'baidu_analytics')
+</script><script defer="defer" data-pjax="data-pjax" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;591ae059fa6d429cb2c89f6d75491727&quot;}"></script><script>(function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "s8xoxf658n");
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '常用容器配置备份',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://github.com/YangRucheng.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://api.anosu.top/img/?sort=furry&amp;_=3);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="https://github.com/YangRucheng.png" alt="Logo"><span class="site-name">符号看象限</span></a><a class="nav-page-title" href="/"><span class="site-name">常用容器配置备份</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">常用容器配置备份</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-19T16:00:00.000Z" title="发表于 2022-03-20 00:00">2022-03-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-07-20T05:18:23.578Z" title="更新于 2025-07-20 13:18">2025-07-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="umamiPV" data-path="/posts/2022/03/719dbd0f8d3c/"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="安装-Portainer-容器管理工具"><a href="#安装-Portainer-容器管理工具" class="headerlink" title="安装 Portainer 容器管理工具"></a>安装 Portainer 容器管理工具</h2><h3 id="创建网络-以便后续使用"><a href="#创建网络-以便后续使用" class="headerlink" title="创建网络, 以便后续使用"></a>创建网络, 以便后续使用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">network_name=<span class="string">&quot;network&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> docker network <span class="built_in">ls</span> | grep -q <span class="string">&quot;network&quot;</span>; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;网络已存在&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    docker network create --driver bridge --gateway=172.18.0.1 --subnet=172.18.0.0/24 network</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;网络创建成功&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-Portainer-社区版"><a href="#安装-Portainer-社区版" class="headerlink" title="安装 Portainer 社区版"></a>安装 Portainer 社区版</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">  -p 9000:9000 \</span><br><span class="line">  --name=Portainer \</span><br><span class="line">  --restart=always \</span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock </span><br><span class="line">  -v /home/Docker/Portainer:/data </span><br><span class="line">  portainer/portainer-ce</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-Portainer-Agent"><a href="#安装-Portainer-Agent" class="headerlink" title="安装 Portainer Agent"></a>安装 Portainer Agent</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> DEVICE_NAME=<span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">    -p 9001:9001 \</span><br><span class="line">    --name PortainerAgent \</span><br><span class="line">    --restart=always \</span><br><span class="line">    -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line">    -v /var/lib/docker/volumes:/var/lib/docker/volumes \</span><br><span class="line">    -v /:/host \</span><br><span class="line">    -e DEVICE_NAME=<span class="string">&quot;<span class="variable">$DEVICE_NAME</span>&quot;</span> \</span><br><span class="line">    portainer/agent</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-Portainer-Edge-Agent"><a href="#安装-Portainer-Edge-Agent" class="headerlink" title="安装 Portainer Edge Agent"></a>安装 Portainer Edge Agent</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> EDGE_ID=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="built_in">export</span> EDGE_KEY=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="built_in">export</span> DEVICE_NAME=<span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line">  -v /var/lib/docker/volumes:/var/lib/docker/volumes \</span><br><span class="line">  -v /:/host \</span><br><span class="line">  -v Portainer:/data \</span><br><span class="line">  --restart always \</span><br><span class="line">  -e EDGE=1 \</span><br><span class="line">  -e EDGE_ID=<span class="string">&quot;<span class="variable">$EDGE_ID</span>&quot;</span> \</span><br><span class="line">  -e EDGE_KEY=<span class="string">&quot;<span class="variable">$EDGE_KEY</span>&quot;</span> \</span><br><span class="line">  -e DEVICE_NAME=<span class="string">&quot;<span class="variable">$DEVICE_NAME</span>&quot;</span> \</span><br><span class="line">  -e EDGE_INSECURE_POLL=1 \</span><br><span class="line">  --name PortainerEdgeAgent \</span><br><span class="line">  portainer/agent</span><br></pre></td></tr></table></figure>
+
+<h2 id="AList-云盘列表程序"><a href="#AList-云盘列表程序" class="headerlink" title="AList 云盘列表程序"></a>AList 云盘列表程序</h2><h3 id="仅安装-AList"><a href="#仅安装-AList" class="headerlink" title="仅安装 AList"></a>仅安装 AList</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">services:  </span><br><span class="line">    alist:</span><br><span class="line">        image: &#x27;xhofe/alist:beta-aria2&#x27;</span><br><span class="line">        container_name: AList</span><br><span class="line">        volumes:</span><br><span class="line">            - &#x27;vol_1:/opt/alist/data&#x27;</span><br><span class="line">            - &#x27;/etc/docker/containers/alist/config.json:/opt/alist/data/config.json&#x27;</span><br><span class="line">        environment:</span><br><span class="line">            - &#x27;PUID=0&#x27;</span><br><span class="line">            - &#x27;PGID=0&#x27;</span><br><span class="line">            - &#x27;TZ=Asia/Shanghai&#x27;</span><br><span class="line">        ports:</span><br><span class="line">            - &#x27;5244:5244&#x27;</span><br><span class="line">        restart: unless-stopped</span><br><span class="line">        networks:</span><br><span class="line">            - persist</span><br><span class="line">            </span><br><span class="line">networks:</span><br><span class="line">    persist:</span><br><span class="line">        external: true</span><br><span class="line">        name: network</span><br><span class="line"></span><br><span class="line">volumes:</span><br><span class="line">    vol_1:</span><br><span class="line">        name: AList</span><br></pre></td></tr></table></figure>
+
+<h3 id="包括-QbitTorrent-和-Aria2"><a href="#包括-QbitTorrent-和-Aria2" class="headerlink" title="包括 QbitTorrent 和 Aria2"></a>包括 QbitTorrent 和 Aria2</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">services:  </span><br><span class="line">    qbittorrent:</span><br><span class="line">        image: &#x27;linuxserver/qbittorrent&#x27;</span><br><span class="line">        container_name: Qbittorrent</span><br><span class="line">        environment:</span><br><span class="line">            - &#x27;PUID=0&#x27;</span><br><span class="line">            - &#x27;PGID=0&#x27;</span><br><span class="line">            - &#x27;TZ=Asia/Shanghai&#x27;</span><br><span class="line">            - &#x27;TORRENTING_PORT=6881&#x27;</span><br><span class="line">            - &#x27;WEBUI_PORT=6879&#x27;</span><br><span class="line">        volumes:</span><br><span class="line">            - &#x27;vol_2:/config&#x27;</span><br><span class="line">            - &#x27;vol_downloads:/downloads&#x27;</span><br><span class="line">        ports:</span><br><span class="line">            - &#x27;5244:5244&#x27;</span><br><span class="line">            - &#x27;6800:6800&#x27;</span><br><span class="line">            - &#x27;6880:6880&#x27;  </span><br><span class="line">            - &#x27;6879:6879&#x27;</span><br><span class="line">            - &#x27;6881:6881&#x27;</span><br><span class="line">            - &#x27;6881:6881/udp&#x27;</span><br><span class="line">        restart: unless-stopped</span><br><span class="line">        networks:</span><br><span class="line">            - persist</span><br><span class="line">  </span><br><span class="line">    alist:</span><br><span class="line">        image: &#x27;xhofe/alist-aria2&#x27;</span><br><span class="line">        container_name: AList</span><br><span class="line">        volumes:</span><br><span class="line">            - &#x27;vol_1:/opt/alist/data&#x27;</span><br><span class="line">            - &#x27;vol_downloads:/opt/alist/data/temp/qbittorrent&#x27;</span><br><span class="line">            - &#x27;/mnt/share:/mnt/share&#x27;</span><br><span class="line">            - &#x27;/etc/docker/containers/alist/config.json:/opt/alist/data/config.json&#x27;</span><br><span class="line">        environment:</span><br><span class="line">            - &#x27;PUID=0&#x27;</span><br><span class="line">            - &#x27;PGID=0&#x27;</span><br><span class="line">            - &#x27;TZ=Asia/Shanghai&#x27;</span><br><span class="line">        restart: unless-stopped</span><br><span class="line">        network_mode: &quot;service:qbittorrent&quot;</span><br><span class="line">            </span><br><span class="line">    AriaNg:</span><br><span class="line">        image: &#x27;p3terx/ariang&#x27;</span><br><span class="line">        container_name: AriaNg</span><br><span class="line">        restart: unless-stopped</span><br><span class="line">        network_mode: &quot;service:qbittorrent&quot;</span><br><span class="line">        </span><br><span class="line">networks:</span><br><span class="line">    persist:</span><br><span class="line">        external: true</span><br><span class="line">        name: network</span><br><span class="line"></span><br><span class="line">volumes:</span><br><span class="line">    vol_1:</span><br><span class="line">        name: AList</span><br><span class="line">    vol_2:</span><br><span class="line">        name: Qbittorrent</span><br><span class="line">    vol_downloads:</span><br><span class="line">        name: Downloads-Qbittorrent</span><br></pre></td></tr></table></figure>
+
+<h2 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h2><h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">services:</span><br><span class="line">    MySQL:</span><br><span class="line">        image: &#x27;mysql&#x27;</span><br><span class="line">        container_name: MySQL</span><br><span class="line">        restart: always</span><br><span class="line">        ports:</span><br><span class="line">            - &#x27;3306:3306&#x27;</span><br><span class="line">        volumes:</span><br><span class="line">            - &#x27;vol_1:/var/lib/mysql&#x27;</span><br><span class="line">        environment:</span><br><span class="line">            - &#x27;MYSQL_ROOT_PASSWORD=&#x27;</span><br><span class="line">            - &#x27;TZ=Asia/Shanghai&#x27;</span><br><span class="line">        networks:</span><br><span class="line">            - persist</span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">    persist:</span><br><span class="line">        external: true</span><br><span class="line">        name: network</span><br><span class="line"></span><br><span class="line">volumes:</span><br><span class="line">    vol_1:</span><br><span class="line">        name: MySQL</span><br></pre></td></tr></table></figure>
+
+<h3 id="MariaDB"><a href="#MariaDB" class="headerlink" title="MariaDB"></a>MariaDB</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">services:</span><br><span class="line">    MariaDB:</span><br><span class="line">        image: mariadb</span><br><span class="line">        container_name: MariaDB</span><br><span class="line">        restart: always</span><br><span class="line">        ports:</span><br><span class="line">            - &#x27;3307:3306&#x27;</span><br><span class="line">        volumes:</span><br><span class="line">            - &#x27;vol_1:/var/lib/mysql&#x27;</span><br><span class="line">        environment:</span><br><span class="line">            - &#x27;MARIADB_ROOT_PASSWORD=&#x27;</span><br><span class="line">            - &#x27;TZ=Asia/Shanghai&#x27;</span><br><span class="line">        networks:</span><br><span class="line">            - persist</span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">    persist:</span><br><span class="line">        external: true</span><br><span class="line">        name: network</span><br><span class="line"></span><br><span class="line">volumes:</span><br><span class="line">    vol_1:</span><br><span class="line">        external: true</span><br><span class="line">        name: MariaDB</span><br></pre></td></tr></table></figure>
+
+<h2 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h2><blockquote>
+<p>在不支持AVX指令集的CPU上必须使用4.4.18版本, 不支持5.0+版本</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">services:</span><br><span class="line">    MongoDB:</span><br><span class="line">        image: mongo:4.4.18</span><br><span class="line">        container_name: MongoDB</span><br><span class="line">        restart: always</span><br><span class="line">        ports:</span><br><span class="line">            - &#x27;27017:27017&#x27;</span><br><span class="line">        volumes:</span><br><span class="line">            - &#x27;vol_1:/data&#x27;</span><br><span class="line">        environment:</span><br><span class="line">            - &#x27;MONGO_INITDB_ROOT_USERNAME=root&#x27;</span><br><span class="line">            - &#x27;MONGO_INITDB_ROOT_PASSWORD=&#x27;</span><br><span class="line">        networks:</span><br><span class="line">            - persist</span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">    persist:</span><br><span class="line">        external: true</span><br><span class="line">        name: network</span><br><span class="line"></span><br><span class="line">volumes:</span><br><span class="line">    vol_1:</span><br><span class="line">        external: true</span><br><span class="line">        name: MongoDB</span><br></pre></td></tr></table></figure>
+
+<h2 id="HomeAssistant"><a href="#HomeAssistant" class="headerlink" title="HomeAssistant"></a>HomeAssistant</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">services:</span><br><span class="line">    HomeAssistant:</span><br><span class="line">        image: homeassistant/home-assistant</span><br><span class="line">        container_name: HomeAssistant</span><br><span class="line">        restart: always</span><br><span class="line">        ports:</span><br><span class="line">            - &#x27;8500:8123&#x27;</span><br><span class="line">        volumes:</span><br><span class="line">            - &#x27;vol_1:/config&#x27;</span><br><span class="line">        networks:</span><br><span class="line">            - persist</span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">    persist:</span><br><span class="line">        external: true</span><br><span class="line">        name: network</span><br><span class="line"></span><br><span class="line">volumes:</span><br><span class="line">    vol_1:</span><br><span class="line">        external: true</span><br><span class="line">        name: HomeAssistant</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://blog.yangrucheng.top">YangRucheng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://blog.yangrucheng.top/posts/2022/03/719dbd0f8d3c/">https://blog.yangrucheng.top/posts/2022/03/719dbd0f8d3c/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://blog.yangrucheng.top" target="_blank">符号看象限</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/Docker/">Docker</a></div><div class="post-share"><div class="social-share" data-image="https://api.anosu.top/img/?sort=furry&amp;_=3" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/posts/2023/01/6cbc3af20e31/" title="Ubuntu 常用命令记录"><img class="cover" src="https://api.anosu.top/img/?sort=furry&amp;_=1" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Ubuntu 常用命令记录</div></div><div class="info-2"><div class="info-item-1"> 本篇主要记录 Ubuntu 安装软件的过程  开启root账号ssh12345678910# 写入证书cat ~/.ssh/id_rsa.pub | tee /root/.ssh/authorized_keys &amp;&amp; chmod 600 /root/.ssh/authorized_keys# 启用root登录sed -i &#x27;s/#PermitRootLogin prohibit-password/PermitRootLogin yes/&#x27; /etc/ssh/sshd_config# 禁用密码登录sed -i &#x27;s/#PasswordAuthentication yes/PasswordAuthentication no/&#x27; /etc/ssh/sshd_config# 启用证书登录sed -i &#x27;s/#PubkeyAuthentication yes/PubkeyAuthentication yes/&#x27; /etc/ssh/sshd_config# 重启sshsystemctl restart ssh   ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2023/01/6cbc3af20e31/" title="Ubuntu 常用命令记录"><img class="cover" src="https://api.anosu.top/img/?sort=furry&_=1" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-20</div><div class="info-item-2">Ubuntu 常用命令记录</div></div><div class="info-2"><div class="info-item-1"> 本篇主要记录 Ubuntu 安装软件的过程  开启root账号ssh12345678910# 写入证书cat ~/.ssh/id_rsa.pub | tee /root/.ssh/authorized_keys &amp;&amp; chmod 600 /root/.ssh/authorized_keys# 启用root登录sed -i &#x27;s/#PermitRootLogin prohibit-password/PermitRootLogin yes/&#x27; /etc/ssh/sshd_config# 禁用密码登录sed -i &#x27;s/#PasswordAuthentication yes/PasswordAuthentication no/&#x27; /etc/ssh/sshd_config# 启用证书登录sed -i &#x27;s/#PubkeyAuthentication yes/PubkeyAuthentication yes/&#x27; /etc/ssh/sshd_config# 重启sshsystemctl restart ssh   ...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://github.com/YangRucheng.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YangRucheng</div><div class="author-info-description">博客、分享、经验、教程</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YangRucheng"><i class="fab fa-github"></i><span>关注我的GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/YangRucheng/Blog-Hexo" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://qm.qq.com/q/rtZpWJIgPQ" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://space.bilibili.com/472876342" target="_blank" title="哔哩哔哩"><i class="fab fa-bilibili"></i></a><a class="social-icon" href="mailto:admin@yangrucheng.top" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的小站👏🏻</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Portainer-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-number">1.</span> <span class="toc-text">安装 Portainer 容器管理工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%BD%91%E7%BB%9C-%E4%BB%A5%E4%BE%BF%E5%90%8E%E7%BB%AD%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">创建网络, 以便后续使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Portainer-%E7%A4%BE%E5%8C%BA%E7%89%88"><span class="toc-number">1.2.</span> <span class="toc-text">安装 Portainer 社区版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Portainer-Agent"><span class="toc-number">1.3.</span> <span class="toc-text">安装 Portainer Agent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Portainer-Edge-Agent"><span class="toc-number">1.4.</span> <span class="toc-text">安装 Portainer Edge Agent</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AList-%E4%BA%91%E7%9B%98%E5%88%97%E8%A1%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">AList 云盘列表程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%85%E5%AE%89%E8%A3%85-AList"><span class="toc-number">2.1.</span> <span class="toc-text">仅安装 AList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%85%E6%8B%AC-QbitTorrent-%E5%92%8C-Aria2"><span class="toc-number">2.2.</span> <span class="toc-text">包括 QbitTorrent 和 Aria2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">3.</span> <span class="toc-text">关系型数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL"><span class="toc-number">3.1.</span> <span class="toc-text">MySQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MariaDB"><span class="toc-number">3.2.</span> <span class="toc-text">MariaDB</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB"><span class="toc-number">4.</span> <span class="toc-text">MongoDB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HomeAssistant"><span class="toc-number">5.</span> <span class="toc-text">HomeAssistant</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2025/02/95dfce22be52/" title="网站建设方案书"><img src="https://api.anosu.top/img/?sort=furry&amp;_=4" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="网站建设方案书"/></a><div class="content"><a class="title" href="/posts/2025/02/95dfce22be52/" title="网站建设方案书">网站建设方案书</a><time datetime="2025-02-19T16:00:00.000Z" title="发表于 2025-02-20 00:00">2025-02-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2024/12/c9940267708a/" title="把 NoneBot 接入微信公众号 —— 写一个 Adapter"><img src="https://api.anosu.top/img/?sort=furry&amp;_=2" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="把 NoneBot 接入微信公众号 —— 写一个 Adapter"/></a><div class="content"><a class="title" href="/posts/2024/12/c9940267708a/" title="把 NoneBot 接入微信公众号 —— 写一个 Adapter">把 NoneBot 接入微信公众号 —— 写一个 Adapter</a><time datetime="2024-12-19T16:00:00.000Z" title="发表于 2024-12-20 00:00">2024-12-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2023/01/6cbc3af20e31/" title="Ubuntu 常用命令记录"><img src="https://api.anosu.top/img/?sort=furry&amp;_=1" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ubuntu 常用命令记录"/></a><div class="content"><a class="title" href="/posts/2023/01/6cbc3af20e31/" title="Ubuntu 常用命令记录">Ubuntu 常用命令记录</a><time datetime="2023-01-19T16:00:00.000Z" title="发表于 2023-01-20 00:00">2023-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2022/03/719dbd0f8d3c/" title="常用容器配置备份"><img src="https://api.anosu.top/img/?sort=furry&amp;_=3" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常用容器配置备份"/></a><div class="content"><a class="title" href="/posts/2022/03/719dbd0f8d3c/" title="常用容器配置备份">常用容器配置备份</a><time datetime="2022-03-19T16:00:00.000Z" title="发表于 2022-03-20 00:00">2022-03-20</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By YangRucheng</span></div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index"><span>湘ICP备2022020305号</span></a> <a target="_blank" rel="noopener" href="https://beian.mps.gov.cn/#/query/webSearch"><span>湘公网安备43040002000196号</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'YangRucheng/Blog-Hexo',
+      'data-repo-id': 'R_kgDOI4-j6Q',
+      'data-category-id': 'DIC_kwDOI4-j6c4CUaSW',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script>(() => {
+  const option = null
+  const config = {"site_uv":true,"site_pv":true,"page_pv":true,"token":null}
+
+  const runTrack = () => {
+    umami.track(props => ({ ...props, url: window.location.pathname, title: GLOBAL_CONFIG_SITE.title }))
+  }
+
+  const loadUmamiJS = () => {
+    btf.getScript('https://cloud.umami.is/script.js', {
+      'data-website-id': '98a8a59e-4f66-47fe-bc7d-2fb8eba8ef51',
+      'data-auto-track': 'false',
+      ...option
+    }).then(runTrack)
+  }
+
+  const getData = async (isPost) => {
+    const now = Date.now()
+    const keyUrl = isPost ? `&url=${window.location.pathname}` : ''
+    const headerList = { 'Accept': 'application/json' }
+    if (false) headerList['Authorization'] = `Bearer ${config.token}`
+    else headerList['x-umami-api-key'] = config.token
+    const res = await fetch(`https://api.umami.is/v1/websites/98a8a59e-4f66-47fe-bc7d-2fb8eba8ef51/stats?startAt=0000000000&endAt=${now}${keyUrl}`, {
+      method: "GET",
+      headers: headerList
+    })
+    return await res.json()
+  }
+
+  const insertData = async () => {
+    try {
+      if (GLOBAL_CONFIG_SITE.pageType === 'post' && config.page_pv) {
+        const pagePV = document.getElementById('umamiPV')
+        if (pagePV) {
+          const data = await getData(true)
+          pagePV.textContent = data.pageviews.value
+        }
+      } else {
+        const data = (config.site_uv || config.site_pv) && await getData()
+        if (config.site_uv) {
+          const siteUV = document.getElementById('umami-site-uv')
+          if (siteUV) siteUV.textContent = data.visitors.value
+        }
+        if (config.site_pv) {
+          const sitePV = document.getElementById('umami-site-pv')
+          if (sitePV) sitePV.textContent = data.pageviews.value
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load Umami Analytics:', e)
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', runTrack, 'umami_analytics_run_track')
+  btf.addGlobalFn('pjaxComplete', insertData, 'umami_analytics_insert')
+
+  loadUmamiJS()
+  insertData()
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

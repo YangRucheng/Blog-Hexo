@@ -12,5 +12,5 @@
 
 <div align="center" style="font-weight:bold">
     <p>欢迎来到我的博客仓库！</p>
-    <p>博客原文在 `source/_posts` 下，你可以按照 CC BY-NC-SA 4.0 协议转载~</p>
+    <p>博客原文在 source/_posts 下，你可以按照 CC BY-NC-SA 4.0 协议转载~</p>
 </div>  
